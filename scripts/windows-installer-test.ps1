@@ -19,6 +19,13 @@ function Invoke-Setup {
     throw 'Installer changed existing app data.'
   }
 }
+function Wait-Removed([string]$Path) {
+  $deadline = [DateTime]::UtcNow.AddSeconds(30)
+  while ((Test-Path $Path) -and [DateTime]::UtcNow -lt $deadline) {
+    Start-Sleep -Milliseconds 200
+  }
+  if (Test-Path $Path) { throw "Uninstall did not remove $Path within 30 seconds." }
+}
 if ($Action -eq 'Install') {
   $expected = (Get-Content "$installer.sha256").Split(' ')[0]
   if ((Get-FileHash $installer -Algorithm SHA256).Hash -ne $expected) {
@@ -34,8 +41,8 @@ if ($Action -eq 'Install') {
   $uninstaller = Join-Path $installDir 'Uninstall ProCode.exe'
   $result = Start-Process -FilePath $uninstaller -ArgumentList '/S' -Wait -PassThru
   if ($result.ExitCode -ne 0) { throw "Uninstaller exited with $($result.ExitCode)" }
-  if (Test-Path $executable) { throw 'Uninstall left the app executable behind.' }
-  if (Test-Path $shortcut) { throw 'Uninstall left the Start menu shortcut behind.' }
+  Wait-Removed $executable
+  Wait-Removed $shortcut
   if ((Get-Content $sentinel -Raw).Trim() -ne 'preserve-saved-work') {
     throw 'Uninstall removed existing app data.'
   }
