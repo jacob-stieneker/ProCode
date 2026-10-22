@@ -2,7 +2,7 @@
 
 ## Install
 
-Run `ProCode-0.2.3-windows-x64-setup.exe`. The self-contained installer installs ProCode for the current Windows user, with desktop and Start menu shortcuts. It does not require Node.js, Python, a terminal, administrator access, an account, or an internet connection for practice. Reference links open in the default browser.
+Download `ProCode-0.2.3-windows-x64-setup.exe` from the private [v0.2.3 release](https://github.com/jacob-stieneker/ProCode/releases/tag/v0.2.3), then run it. The self-contained installer installs ProCode for the current Windows user, with desktop and Start menu shortcuts. It does not require Node.js, Python, a terminal, administrator access, an account, or an internet connection for practice. Reference links open in the default browser.
 
 The Windows app packages the same Angular production build, Electron version, desktop security boundaries, exercise catalogs, graders, Python interpreter, Angular compiler and local workflow simulators as the Mac app. Console and Test results remain manually selected. Native window chrome, menus, font rendering and keyboard shortcuts follow Windows conventions.
 

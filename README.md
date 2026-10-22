@@ -14,7 +14,7 @@ This is an ad-hoc signed build for the owner's Mac, without Apple notarization. 
 
 Build a fresh DMG on an Apple Silicon Mac with `npm run package:mac`. See [desktop packaging](docs/DESKTOP.md) for prerequisites, storage, verification and signing details.
 
-The private [GitHub repository](https://github.com/jacob-stieneker/ProCode) includes a **Desktop installers** workflow that verifies native Windows and Mac packages. Successful runs provide downloadable installers and checksums. Source code and private repository artifacts are accessible only to people with repository access.
+The private [GitHub repository](https://github.com/jacob-stieneker/ProCode) includes a **Desktop installers** workflow that verifies native Windows and Mac packages. Verified installers and checksums are available in the [v0.2.3 release](https://github.com/jacob-stieneker/ProCode/releases/tag/v0.2.3). Source code and private downloads are accessible only to people with repository access.
 
 ## Run locally
 
