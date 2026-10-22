@@ -194,7 +194,7 @@ test('script errors, API timeouts, isolation and alternative implementations', a
   await expect(ui(page).locator('.console-error')).toContainText(/execution limit|timed out/);
   const probe = `export async function mount(api){
   for(const [name,fn] of [['storage',()=>localStorage.getItem('private')],['parent',()=>parent.document.body.innerHTML],['network',()=>fetch('https://example.com')]]){try{await fn();console.log(name+':allowed');}catch{console.log(name+':blocked');}}
- }`;
+}`;
   await edit(page, { ...fullstackSolutions['fs-tasks'], 'app.ts': probe });
   await run(page, 'Run');
   await ui(page).getByRole('tab', { name: 'Console', exact: true }).click();

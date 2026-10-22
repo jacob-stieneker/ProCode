@@ -10,6 +10,8 @@ import { createRouter } from './router.mjs';
 
 // Runtime receives compiled learner modules inside an opaque-origin iframe.
 (() => {
+  // Worker initialization includes cold startup; requests keep their short watchdog.
+  const apiTimeoutMs = { initialization: 8000, request: 1800 };
   const channel = globalThis.__procodeChannel;
   delete globalThis.__procodeChannel;
   const send = (payload) => parent.postMessage({ channel, payload }, '*');
@@ -143,7 +145,7 @@ import { createRouter } from './router.mjs';
       const id = ++serial;
       const timer = setTimeout(
         () => terminate('API request timed out. Check loops or unresolved promises in api.js.'),
-        1800,
+        message.kind === 'init' ? apiTimeoutMs.initialization : apiTimeoutMs.request,
       );
       pending.set(id, { resolve, reject, timer });
       worker.postMessage({ ...message, id });
@@ -237,7 +239,10 @@ import { createRouter } from './router.mjs';
       new Blob([`(${server.toString()})(${createRouter.toString()})`], { type: 'text/javascript' }),
     );
     worker = new Worker(blob);
-    URL.revokeObjectURL(blob);
+    // Keep the script available until a slow worker has actually loaded it.
+    const releaseBlob = () => URL.revokeObjectURL(blob);
+    worker.addEventListener('message', releaseBlob, { once: true });
+    worker.addEventListener('error', releaseBlob, { once: true });
     worker.onmessage = ({ data }) => {
       if (data.log) {
         log('api.js: ' + data.log);

@@ -1,10 +1,12 @@
 # Changelog
 
-## 0.2.3, 2026-10-21
+## 0.2.3, 2026-10-22
 
 - Added a self-contained Windows x64 NSIS installer using the same app, offline runtimes, grading and UI as the Mac build. Windows uses native menus, taskbar identity and the existing logo; saved work is retained across reinstall and uninstall.
 - Shared runtime staging between Mac and Windows, preserving the existing Mac app identity, protocol, signing and DMG workflow. Installer tools remain development dependencies.
 - Added native Windows CI for installer checksums, install/reinstall/uninstall, the shared installed-app scenarios and full browser regressions. Mac CI checks the existing Apple Silicon package. Artifacts are uploaded only after successful verification.
+- Fixed slow full-stack API-worker startup: initialization has a separate loading budget, and its blob script remains available until the worker loads. API-request and learner-code execution deadlines are unchanged. Added a controlled slow-start regression.
+- Hardened full-stack browser input synchronization and saved-source checks, with explicit fixture whitespace normalization and Console diagnostics on failure. Windows catalog sweeps receive sufficient aggregate test time without changing application limits.
 - Initialized the project as a private GitHub repository, excluding generated runtimes, build artifacts, reports, local configuration and credentials. Added Windows build, installation and signing documentation.
 
 ## 0.2.2, 2026-10-14

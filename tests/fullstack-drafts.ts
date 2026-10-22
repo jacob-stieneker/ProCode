@@ -28,7 +28,8 @@ async function readyFile(page: Page, name: keyof ProjectFiles) {
 export async function editProject(page: Page, files: ProjectFiles) {
   for (const name of fileNames) {
     const editor = await readyFile(page, name);
-    await editor.fill(files[name]);
-    await expect.poll(async () => (await currentFiles(page))[name]).toBe(files[name]);
+    const source = files[name].trim();
+    await editor.fill(source);
+    await expect.poll(async () => (await currentFiles(page))[name]).toBe(source);
   }
 }
