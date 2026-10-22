@@ -4,6 +4,8 @@ import { cleanExercises } from '../src/app/core/clean/catalog';
 import { cleanSolutions } from './fixtures/clean-solutions';
 import { totalChallenges } from './fixtures/challenge-count';
 const ui = (page: Page) => page.locator('pc-clean-practice');
+// The catalog sweep starts a fresh interpreter per attempt; Windows CI needs more total time.
+const catalogTimeoutMs = process.platform === 'win32' ? 480_000 : 240_000;
 async function open(page: Page, id = 'cc-total', language = 'javascript') {
   await page.getByRole('button', { name: 'Clean code', exact: true }).click();
   const exercise = cleanExercises.find((e) => e.id === id)!;
@@ -37,7 +39,7 @@ async function results(page: Page) {
 test('all fifteen sloppy starters keep behavior but fail cleanup; JavaScript and Python refactorings pass', async ({
   page,
 }) => {
-  test.setTimeout(240000);
+  test.setTimeout(catalogTimeoutMs);
   await page.goto('/');
   for (const exercise of cleanExercises)
     for (const language of ['javascript', 'python'] as const) {

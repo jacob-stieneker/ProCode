@@ -1,10 +1,10 @@
 # ProCode architecture
 
-## macOS desktop delivery
+## Desktop delivery
 
-The optional personal-use Apple Silicon app wraps the unchanged production web bundle in Electron. `desktop/main.cjs` owns native windows/menus and a stable `procode://app` origin. `desktop/assets.cjs` serves read-only bundled assets with MIME types and opaque-frame CORS, without a listening HTTP server. No preload bridge or Node integration is exposed to the sandboxed renderer. Network requests are blocked in the app session; HTTPS reference links open externally. Grading-frame timer throttling is disabled while existing runner deadlines stay in force.
+The Windows x64 and personal-use Apple Silicon apps wrap the same production web bundle in Electron. `desktop/main.cjs` owns native windows and a stable `procode://app` origin, with platform menus in `desktop/menu.cjs` and shared identity in `desktop/config.cjs`. `desktop/assets.cjs` serves read-only bundled assets with MIME types and opaque-frame CORS, without a listening HTTP server. No preload bridge or Node integration is exposed to the sandboxed renderer. Network requests are blocked in the app session; HTTPS reference links open externally. Grading-frame timer throttling is disabled while existing runner deadlines stay in force.
 
-The desktop workspace lives under `~/Library/Application Support/ProCode`, independently of browser-origin storage. Package scripts stage only the desktop entry points, production assets and license notices, sign the app locally, exercise the packaged executable with temporary profiles, and create a verified DMG. See [desktop packaging](DESKTOP.md) for build and distribution boundaries.
+The desktop workspace lives under `~/Library/Application Support/ProCode` on Mac or `%APPDATA%\ProCode` on Windows, independently of browser-origin storage. Shared staging copies only desktop entry points, production assets, icons and license notices. Mac packaging signs locally and creates a verified DMG. Windows uses a current-user NSIS installer, retaining app data on reinstall and uninstall. Native CI checks the real installed Windows executable and the Mac package with temporary profiles. See [Mac packaging](DESKTOP.md) and [Windows packaging](WINDOWS.md) for build and distribution boundaries.
 
 ## Scope and ownership
 
@@ -72,7 +72,6 @@ No Firebase backend, accounts, paid service, or cloud database was added. This l
 
 Keep the `Runner` interface and replace its implementation with a backend submission API for hosted use. Move private tests and score authority to that backend. Add Firebase Auth/Firestore when cloud sync is wanted. Before that integration, limit CORS to public runtime assets and review authentication origins. Extend existing Angular/HTML/CSS adapters and add real Firebase/Git execution adapters rather than teaching a single string-matching grader every language.
 
-
 ## HTML and CSS practice
 
 The deferred `WebPractice` component owns a separate editor, topic/difficulty selectors, requirements, live preview, and results. `core/web/model.ts` is lightweight metadata shared with global progress. `catalog.ts` holds 12 authored exercises and trusted requirement predicates; it loads with the component. CodeMirror HTML/CSS language extensions load on demand and share the existing theme tokens and editor assistance. Escape selects the visible Run control when multiple practice components remain mounted.
@@ -84,7 +83,6 @@ Typing refreshes the visible preview after a 250ms debounce. Run/Finish create d
 `WebWorkspace` validates `procode.web-practice.v1`: current versioned drafts, known topic/difficulty selection, selected IDs, dates, and unique completions. It retains empty drafts and drops unknown or oversized records. Storage failures leave an exportable in-memory session. Algorithm/quiz records are untouched. Global progress includes the 18 web exercises alongside the other practice areas; web export remains a separate JSON file. These are finite learning checks, not comprehensive syntax validation or accessibility certification.
 
 References: [MDN iframe sandbox](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/iframe), [MDN srcdoc](https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement/srcdoc), and [CodeMirror HTML language support](https://codemirror.net/examples/mixed-language/).
-
 
 ## Angular coding practice
 
@@ -102,13 +100,11 @@ Compilation has a 12-second timeout in a disposable worker. The iframe session h
 
 Primary references: [Angular Component API](https://angular.dev/api/core/Component), [bootstrapApplication](https://angular.dev/api/platform-browser/bootstrapApplication), [signals](https://angular.dev/guide/signals), and [reactive forms](https://angular.dev/guide/forms/reactive-forms).
 
-
 ### Local contact CRUD service
 
 `scripts/angular-runtime/contacts-api.mjs` supplies `PracticeContactsApi` through the existing `@procode/practice` module. Each bootstrapped Angular application receives a fresh root-scoped service and seeded records. Cold Observables delay work 160ms and cancel it on unsubscribe. `list/create/update/delete` return cloned results; validation and optional version checks run before mutations. Stable IDs increase without reuse. Each accepted update increments the version. One-shot matching-operation failures produce code 503; invalid data uses 400, missing records 404, and stale versions 409. `changeElsewhere` simulates an external versioned edit.
 
 Records persist inside that service instance across list reloads, so grading detects view-only mutations. They are never stored in ProCode's localStorage or sent over HTTP. A separate service instance for every scenario and preview prevents test contamination. The sandbox permissions and import whitelist are otherwise unchanged. Senior scenarios exercise stale updates, conflict resolution after reload, immediate optimistic removal, and exact row-order restoration on rejected deletion. The test API is deliberately inspectable personal-practice infrastructure, not a real server or trust boundary.
-
 
 ## Firebase command workflows
 
@@ -119,7 +115,6 @@ Each attempt deep-clones its initial virtual environment. A bounded tokenizer ha
 Checks inspect final state plus deployment/preview/test history. All attempts also require zero command errors. Run and Finish check the same requirements; only Finish awards credit. Console is default, selected tabs remain stable, and edits clear stale results. A plain textarea supplies accessible command editing with Cmd/Ctrl+Enter. All output is Angular text interpolation.
 
 This intentionally supports a teaching subset of Firebase CLI syntax. Initialization prompt answers, project aliases, Hosting sites, configuration files and emulator data are fixtures. Starting an emulator records virtual running state and returns immediately; exec records a simulated successful fixture-script result and stopped state. Export-on-exit records intent, not real persisted emulator data. No SDK CRUD, rule compilation, authorization tests, external CI, real emulators or cloud operations are provided.
-
 
 ## Full-stack project practice
 

@@ -4,6 +4,8 @@
 
 For a self-contained Apple Silicon macOS app, use `npm run package:mac`. The local-use DMG includes the production app, Chromium and all practice runtimes, with no localhost server or end-user development tools required. See [desktop packaging](DESKTOP.md) for installation, storage separation, testing and ad-hoc signing limits.
 
+For Windows x64, use `npm run package:windows` on Windows. It builds an offline NSIS setup executable with the same app and runtimes. The private repository's **Desktop installers** workflow verifies native packages and uploads checked installers. See [Windows delivery](WINDOWS.md) for install/reinstall/uninstall coverage, signing status and saved-work preservation.
+
 Run locally with `npm ci` then `npm start`. For the production bundle, use `npm run build` then `npm run preview`. The app and all runtime assets are served by the local machine; no cloud resources or credentials are required. The preview server binds to loopback and is not a production application server.
 
 Use a consistent hostname and port to preserve access to the same localStorage data. For example, `localhost:4200`, `127.0.0.1:4200`, and `127.0.0.1:4201` are separate workspaces. Export before switching origins or clearing browser storage.

@@ -2,8 +2,9 @@ import { test, expect, Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import { fullstackSolutions } from './fixtures/fullstack-solutions';
 import { fullstackExercises } from '../src/app/core/fullstack/catalog';
-import { ProjectFiles, fileNames } from '../src/app/core/fullstack/model';
+import { ProjectFiles } from '../src/app/core/fullstack/model';
 import { totalChallenges } from './fixtures/challenge-count';
+import { editProject as edit } from './fullstack-drafts';
 const ui = (page: Page) => page.locator('pc-fullstack-practice');
 async function open(page: Page, id = 'fs-tasks') {
   await page.goto('/');
@@ -21,12 +22,6 @@ async function open(page: Page, id = 'fs-tasks') {
     .click();
   await ui(page).getByLabel('Full-stack exercise', { exact: true }).selectOption(id);
 }
-async function edit(page: Page, files: ProjectFiles) {
-  for (const name of fileNames) {
-    await ui(page).getByRole('tab', { name, exact: true }).click();
-    await ui(page).getByRole('textbox', { name: 'Solution code' }).fill(files[name]);
-  }
-}
 async function run(page: Page, mode = 'Finish') {
   const output = ui(page).getByRole('region', { name: 'Full-stack practice output' }),
     before = Number(await output.getAttribute('data-completed-attempt'));
@@ -38,6 +33,14 @@ async function run(page: Page, mode = 'Finish') {
     .getByRole('tab', { name: /Test results/ })
     .click();
 }
+test.afterEach(async ({ page }, info) => {
+  if (info.status === info.expectedStatus) return;
+  await ui(page).getByRole('tab', { name: 'Console', exact: true }).click();
+  await info.attach('fullstack-console', {
+    body: await ui(page).innerText(),
+    contentType: 'text/plain',
+  });
+});
 test('nine full-stack projects reject starters and accept complete client/API implementations', async ({
   page,
 }) => {

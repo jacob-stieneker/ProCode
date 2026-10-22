@@ -4,6 +4,15 @@ on:
     branches: [main]
   pull_request:
   workflow_dispatch:
+    inputs:
+      browser_grep:
+        description: Optional browser-test regex for a focused recheck (empty runs all)
+        type: string
+        default: ''
+      verify_macos:
+        description: Rebuild and verify the Mac package
+        type: boolean
+        default: true
 
 permissions:
   contents: read
@@ -16,7 +25,7 @@ jobs:
   windows:
     name: Windows installer and feature verification
     runs-on: windows-2025
-    timeout-minutes: 45
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -41,8 +50,17 @@ jobs:
       - name: Verify uninstall preserves app data
         run: ./scripts/windows-installer-test.ps1 Uninstall
       - run: npx playwright install chromium
-      - name: Run the full browser regression suite on Windows
-        run: npm run test:e2e
+      - name: Run browser regression checks on Windows
+        env:
+          PROCODE_BROWSER_GREP: ${{ inputs.browser_grep }}
+        run: |
+          if ($env:PROCODE_BROWSER_GREP) {
+            "Focused browser recheck: $env:PROCODE_BROWSER_GREP" >> $env:GITHUB_STEP_SUMMARY
+            npm run test:e2e -- --grep "$env:PROCODE_BROWSER_GREP"
+          } else {
+            'Full browser regression suite' >> $env:GITHUB_STEP_SUMMARY
+            npm run test:e2e
+          }
       - name: Upload verified Windows installer
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
@@ -53,7 +71,7 @@ jobs:
           if-no-files-found: error
           retention-days: 14
       - name: Upload test diagnostics
-        if: failure()
+        if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: Windows-test-diagnostics
@@ -65,6 +83,7 @@ jobs:
           retention-days: 7
   macos:
     name: Verify existing Apple Silicon packaging
+    if: github.event_name != 'workflow_dispatch' || inputs.verify_macos
     runs-on: macos-15
     timeout-minutes: 20
     steps:
