@@ -1,6 +1,7 @@
 import { expect, Page } from '@playwright/test';
 import { fullstackExercises } from '../src/app/core/fullstack/catalog';
 import { fullstackKey, fileNames, ProjectFiles } from '../src/app/core/fullstack/model';
+import { replaceEditorCode } from './editor-input';
 const ui = (page: Page) => page.locator('pc-fullstack-practice');
 async function currentFiles(page: Page): Promise<ProjectFiles> {
   const id = await ui(page).getByLabel('Full-stack exercise', { exact: true }).inputValue();
@@ -25,11 +26,15 @@ async function readyFile(page: Page, name: keyof ProjectFiles) {
   else await expect(editor).toHaveText('', { useInnerText: true });
   return editor;
 }
-export async function editProject(page: Page, files: ProjectFiles) {
+export async function editProject(
+  page: Page,
+  files: ProjectFiles,
+  normalizeOuterWhitespace = true,
+) {
   for (const name of fileNames) {
     const editor = await readyFile(page, name);
-    const source = files[name].trim();
-    await editor.fill(source);
+    const source = normalizeOuterWhitespace ? files[name].trim() : files[name];
+    await replaceEditorCode(editor, source);
     await expect.poll(async () => (await currentFiles(page))[name]).toBe(source);
   }
 }

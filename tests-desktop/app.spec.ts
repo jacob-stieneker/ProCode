@@ -12,6 +12,8 @@ import { gitSolutions } from '../tests/fixtures/git-solutions';
 import { questions } from '../src/app/core/quiz/questions';
 import { solutions as juniorSolutions } from '../tests/fixtures/junior-solutions';
 import { submit as submitMethod } from '../tests/method-helpers';
+import { replaceEditorCode } from '../tests/editor-input';
+import { editProject } from '../tests/fullstack-drafts';
 
 let desktop: ElectronApplication;
 let page: Page;
@@ -113,6 +115,7 @@ async function checkSorting(language: 'javascript' | 'python', correct: boolean)
     await expect(page.getByText('Different method detected', { exact: true })).toBeVisible();
 }
 test('bundled method checks withhold credit for a sorting substitution in both languages', async () => {
+  await desktop.evaluate(({ BrowserWindow }) => BrowserWindow.getAllWindows()[0].setSize(768, 640));
   await page.locator('#algorithm').selectOption('selection-sort');
   for (const language of ['javascript', 'python'] as const) {
     await checkSorting(language, false);
@@ -127,9 +130,10 @@ test('bundled method checks withhold credit for a sorting substitution in both l
 test('bundled compiler, full-stack workers, clean analyzers and HTML preview work', async () => {
   await page.getByRole('button', { name: 'Angular', exact: true }).click();
   const angular = page.locator('pc-angular-practice');
-  await angular
-    .getByRole('textbox', { name: 'Solution code' })
-    .fill(angularSolutions['ng-counter']);
+  await replaceEditorCode(
+    angular.getByRole('textbox', { name: 'Solution code' }),
+    angularSolutions['ng-counter'],
+  );
   await angular.getByRole('button', { name: 'Finish', exact: true }).click();
   await angular.getByRole('tab', { name: /Test results/ }).click();
   await expect(angular.getByText('Challenge complete.', { exact: true })).toBeVisible();
@@ -140,12 +144,7 @@ test('bundled compiler, full-stack workers, clean analyzers and HTML preview wor
 
   await page.getByRole('button', { name: 'Full stack', exact: true }).click();
   const fullstack = page.locator('pc-fullstack-practice');
-  for (const [file, source] of Object.entries(angularFullstackSolutions['fs-tasks'])) {
-    const tab = fullstack.getByRole('tab', { name: file, exact: true });
-    await tab.click();
-    await expect(tab).toHaveAttribute('aria-selected', 'true');
-    await fullstack.getByRole('textbox', { name: 'Solution code' }).fill(source);
-  }
+  await editProject(page, angularFullstackSolutions['fs-tasks'], false);
   await expect
     .poll(() =>
       page.evaluate(
@@ -166,9 +165,11 @@ test('bundled compiler, full-stack workers, clean analyzers and HTML preview wor
   const clean = page.locator('pc-clean-practice');
   for (const language of ['javascript', 'python'] as const) {
     await clean.getByLabel('Clean code language', { exact: true }).selectOption(language);
-    await clean
-      .getByRole('textbox', { name: 'Solution code' })
-      .fill(cleanSolutions['cc-total'][language]);
+    const editor = clean.getByRole('textbox', { name: 'Solution code' });
+    await expect(editor).toContainText(
+      language === 'javascript' ? 'function orderTotal' : 'def order_total',
+    );
+    await replaceEditorCode(editor, cleanSolutions['cc-total'][language]);
     await clean.getByRole('button', { name: 'Finish', exact: true }).click();
     await clean.getByRole('tab', { name: /Test results/ }).click();
     await expect(clean.getByText('Challenge complete.', { exact: true })).toBeVisible({
@@ -178,7 +179,10 @@ test('bundled compiler, full-stack workers, clean analyzers and HTML preview wor
 
   await page.getByRole('button', { name: 'HTML & CSS', exact: true }).click();
   const web = page.locator('pc-web-practice');
-  await web.getByRole('textbox', { name: 'Solution code' }).fill(webSolutions['html-profile']);
+  await replaceEditorCode(
+    web.getByRole('textbox', { name: 'Solution code' }),
+    webSolutions['html-profile'],
+  );
   await web.getByRole('button', { name: 'Finish', exact: true }).click();
   await web.getByRole('tab', { name: /Test results/ }).click();
   await expect(web.getByText('Challenge complete.', { exact: true })).toBeVisible();

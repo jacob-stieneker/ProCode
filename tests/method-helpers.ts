@@ -1,6 +1,7 @@
 import { expect, Page, TestInfo } from '@playwright/test';
 import { exercises, Language } from '../src/app/core/exercises';
 import { solutions } from './fixtures/method-cases';
+import { replaceEditorCode } from './editor-input';
 const timeout = 50000;
 const difficultyNames = {
   junior: /Junior Developer/,
@@ -22,20 +23,24 @@ async function currentDraft(page: Page, id: string) {
   );
   return drafts[key] ?? exercise.starter[language];
 }
+async function readyEditor(page: Page, id: string) {
+  const editor = page.getByRole('textbox', { name: 'Solution code' });
+  await editor.press('ControlOrMeta+Home');
+  const prefix = (await currentDraft(page, id)).split('\n').slice(0, 3).join('\n');
+  await expect(editor).toContainText(prefix, { useInnerText: true });
+  return editor;
+}
 export async function choose(page: Page, id: string) {
   const exercise = exerciseFor(id);
   const name = exercise.area === 'data-structures' ? 'Data structures' : 'Algorithms';
   await page.getByRole('button', { name, exact: true }).click();
   await page.getByRole('button', { name: difficultyNames[exercise.difficulty] }).click();
   await page.locator('#algorithm').selectOption(id);
-  await expect(page.getByRole('textbox', { name: 'Solution code' })).toHaveText(
-    await currentDraft(page, id),
-    { useInnerText: true },
-  );
+  return readyEditor(page, id);
 }
 export async function submit(page: Page, id: string, source: string, mode = 'Finish') {
-  await choose(page, id);
-  await page.getByRole('textbox', { name: 'Solution code' }).fill(source);
+  const editor = await choose(page, id);
+  await replaceEditorCode(editor, source);
   await expect.poll(() => currentDraft(page, id)).toBe(source);
   await page.getByRole('button', { name: mode, exact: true }).click();
 }
