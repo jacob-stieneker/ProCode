@@ -13,17 +13,22 @@ on:
         description: Rebuild and verify the Mac package
         type: boolean
         default: true
+      verify_windows:
+        description: Rebuild and verify the Windows installer
+        type: boolean
+        default: true
 
 permissions:
   contents: read
 
 concurrency:
-  group: desktop-${{ github.ref }}
+  group: desktop-${{ github.ref }}-${{ github.event_name == 'workflow_dispatch' && format('{0}-{1}', inputs.verify_windows, inputs.verify_macos) || 'all' }}
   cancel-in-progress: true
 
 jobs:
   windows:
     name: Windows installer and feature verification
+    if: github.event_name != 'workflow_dispatch' || inputs.verify_windows
     runs-on: windows-2025
     timeout-minutes: 60
     steps:

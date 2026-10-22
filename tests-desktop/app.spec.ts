@@ -11,6 +11,7 @@ import { firebaseSolutions } from '../tests/fixtures/firebase-solutions';
 import { gitSolutions } from '../tests/fixtures/git-solutions';
 import { questions } from '../src/app/core/quiz/questions';
 import { solutions as juniorSolutions } from '../tests/fixtures/junior-solutions';
+import { submit as submitMethod } from '../tests/method-helpers';
 
 let desktop: ElectronApplication;
 let page: Page;
@@ -61,8 +62,7 @@ test('bundled JavaScript/Python run offline and drafts survive a full relaunch',
     ],
   ]) {
     await page.getByLabel('Practice language').selectOption(language);
-    await page.getByRole('textbox', { name: 'Solution code' }).fill(source);
-    await page.getByRole('button', { name: 'Finish', exact: true }).click();
+    await submitMethod(page, 'two-sum', source);
     await expect(page.getByText('Challenge complete.', { exact: true })).toBeVisible({
       timeout: 60000,
     });
@@ -84,8 +84,7 @@ function sortingSource(language: 'javascript' | 'python', correct: boolean) {
 }
 async function submitSorting(language: 'javascript' | 'python', correct: boolean) {
   await page.getByLabel('Practice language').selectOption(language);
-  await page.getByRole('textbox', { name: 'Solution code' }).fill(sortingSource(language, correct));
-  await page.getByRole('button', { name: 'Finish', exact: true }).click();
+  await submitMethod(page, 'selection-sort', sortingSource(language, correct));
   const status = page.getByRole('region', { name: 'Execution results' }).locator('[aria-live]');
   const message = correct ? 'Selection Sort verified' : 'comparison pattern matches Bubble Sort';
   await expect(status).toContainText(message, { timeout: 60000 });

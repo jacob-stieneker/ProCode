@@ -37,6 +37,6 @@ The **Desktop installers** GitHub Actions workflow builds Windows and macOS from
 
 Download **ProCode-Windows-x64** from a successful Actions run. It contains the installer and checksum. Artifact retention is 14 days; a durable GitHub Release can retain selected verified installers. The workflow never automatically publishes a release, uploads credentials or changes signing accounts.
 
-Manual workflow runs can use `browser_grep` to recheck selected browser scenarios and turn off `verify_macos` when Mac code has not changed. The job summary identifies a focused recheck. A focused success establishes that selected coverage, not a replacement for the complete regression sweep. Test reports and screenshots are retained with workflow artifacts.
+Manual workflow runs can use `browser_grep` to recheck selected browser scenarios and select platforms with `verify_macos` and `verify_windows`. The job summary identifies a focused recheck. A focused success establishes that selected coverage, not a replacement for the complete regression sweep. Test reports and screenshots are retained with workflow artifacts.
 
 The macOS workflow retains the existing Apple Silicon packaging and local ad-hoc signing. See [DESKTOP.md](DESKTOP.md) for Mac-specific installation and trust details. Windows installer behavior follows [NSIS options](https://www.electron.build/v26/docs/nsis/) and its [silent installation parameters](https://nsis.sourceforge.io/Which_command_line_parameters_can_be_used_to_configure_installers).
