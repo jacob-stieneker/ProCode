@@ -1,0 +1,231 @@
+@if (store.warning()) {
+  <div class="notice" role="alert">
+    {{ store.warning() }}<button (click)="store.export()">Export work</button>
+  </div>
+}
+<section class="levels" aria-label="Firebase difficulty">
+  @for (level of levels; track level.id) {
+    <button
+      [attr.aria-pressed]="store.state().difficulty === level.id"
+      [class.selected]="store.state().difficulty === level.id"
+      (click)="change(level.id)"
+    >
+      {{ level.name }}
+    </button>
+  }
+</section>
+<div class="selectors">
+  <label
+    >Exercise<select
+      aria-label="Firebase exercise"
+      [ngModel]="exercise().id"
+      (ngModelChange)="change(undefined, $event)"
+    >
+      @for (e of list(); track e.id) {
+        <option [value]="e.id">{{ e.title }}</option>
+      }
+    </select></label
+  ><button (click)="store.export()"><pc-icon name="download" />Export work</button>
+</div>
+<div class="workspace">
+  <section class="panel instructions" aria-label="Firebase challenge instructions">
+    <h2>{{ exercise().title }}</h2>
+    <div class="heading">
+      <span class="topic">Firebase CLI · Local simulator</span>
+      @if (completed()) {
+        <span class="complete"><pc-icon name="check" />Completed</span>
+      }
+    </div>
+    <p>{{ exercise().description }}</p>
+    <h3>Requirements</h3>
+    <ul>
+      @for (requirement of exercise().requirements; track requirement) {
+        <li>{{ requirement }}</li>
+      }
+    </ul>
+    <details>
+      <summary>Check coverage</summary>
+      <ul>
+        @for (check of exercise().checks; track check.name) {
+          <li>{{ check.name }}</li>
+        }
+      </ul>
+    </details>
+    <details>
+      <summary>Command reference</summary>
+      <p>
+        Local simulator only. No accounts, real files, network requests, or cloud deployments. Each
+        Run or Finish starts from the exercise fixture shown in State. Aliases: dev, staging, prod.
+      </p>
+      <pre tabindex="0">
+firebase login
+firebase projects:list
+firebase use PROJECT_OR_ALIAS
+firebase init hosting
+firebase init firestore
+firebase init emulators
+firebase deploy --only SCOPE --project PROJECT
+firebase hosting:channel:deploy CHANNEL --expires 7d --project PROJECT
+firebase target:apply hosting app SITE --project PROJECT
+firebase emulators:start --only auth,firestore --project demo-procode
+firebase emulators:exec --only firestore --project demo-procode "npm run test:rules"</pre>
+      <p>
+        Emulator flags: --import ./seed, --export-on-exit ./saved. Fixture paths: seed, saved,
+        export. The only available test script is npm run test:rules. Its result is simulated.
+      </p>
+      <p>
+        One command per line. Comments start with #. Quoted values, --flag=value, --flag value, and
+        -P for --project are accepted. Unlisted commands, options, and shell syntax are unsupported.
+      </p>
+      <a href="https://firebase.google.com/docs/cli" target="_blank" rel="noopener noreferrer"
+        >Firebase CLI documentation</a
+      >
+    </details>
+    <button
+      class="hint"
+      [disabled]="hints() >= exercise().hints.length"
+      (click)="hints.set(hints() + 1)"
+    >
+      <pc-icon name="bulb" />Hint {{ hints() }} / {{ exercise().hints.length }}
+    </button>
+    @for (hint of exercise().hints.slice(0, hints()); track hint) {
+      <p class="hint-text">{{ hint }}</p>
+    }
+  </section>
+  <div class="workbench">
+    <section class="panel editor-panel" aria-label="Firebase code editor">
+      <div class="toolbar">
+        <strong>commands</strong
+        ><button aria-label="Reset Firebase starter commands" (click)="resetConfirm.set(true)">
+          <pc-icon name="reset" />
+        </button>
+      </div>
+      @if (resetConfirm()) {
+        <div class="reset-confirm" role="group" aria-label="Reset Firebase confirmation">
+          <span>Replace this draft with starter commands?</span
+          ><button (click)="resetConfirm.set(false)">Keep my commands</button
+          ><button (click)="reset()">Reset commands</button>
+        </div>
+      }
+      <label class="sr-only" for="firebase-commands">Firebase commands</label>
+      <textarea
+        id="firebase-commands"
+        class="commands"
+        spellcheck="false"
+        autocapitalize="off"
+        autocomplete="off"
+        autocorrect="off"
+        maxlength="50000"
+        [ngModel]="code()"
+        (ngModelChange)="updateCode($event)"
+        (keydown)="shortcut($event)"
+      ></textarea>
+      <div class="actions">
+        <button class="run-button" (click)="execute('run')"><pc-icon name="play" />Run</button
+        ><button class="primary" (click)="execute('finish')">Finish<pc-icon name="arrow" /></button
+        ><small>{{ store.warning() ? 'Session active' : 'Saved locally' }}</small>
+      </div>
+    </section>
+    <section class="panel output" aria-label="Firebase practice output">
+      <div
+        class="output-header"
+        role="tablist"
+        aria-label="Firebase output"
+        (keydown)="navigate($event)"
+      >
+        @for (tab of tabs; track tab.id) {
+          <button
+            [id]="'fb-' + tab.id + '-tab'"
+            role="tab"
+            [attr.aria-controls]="'fb-' + tab.id + '-panel'"
+            [attr.aria-selected]="output() === tab.id"
+            [tabIndex]="output() === tab.id ? 0 : -1"
+            (click)="output.set(tab.id)"
+          >
+            <pc-icon [name]="tab.icon" />{{ tab.label }}
+            @if (tab.id === 'tests' && attempt()) {
+              <span>{{ passes() }}/{{ attempt()!.results.length }}</span>
+            }
+          </button>
+        }
+      </div>
+      <div
+        id="fb-console-panel"
+        role="tabpanel"
+        aria-labelledby="fb-console-tab"
+        [hidden]="output() !== 'console'"
+        class="console"
+      >
+        @for (log of attempt()?.logs ?? []; track $index) {
+          <pre tabindex="0">{{ log }}</pre>
+        }
+        @for (error of attempt()?.errors ?? []; track $index) {
+          <pre class="console-error" tabindex="0">{{ error }}</pre>
+        }
+        @if (!attempt()) {
+          <p>Run commands to see output.</p>
+        }
+      </div>
+      <div
+        id="fb-state-panel"
+        role="tabpanel"
+        aria-labelledby="fb-state-tab"
+        [hidden]="output() !== 'state'"
+        class="console"
+      >
+        <p>{{ attempt() ? 'Resulting virtual state' : 'Initial virtual state' }}</p>
+        <pre tabindex="0" aria-label="Virtual Firebase state">{{ stateView() }}</pre>
+      </div>
+      <div
+        id="fb-tests-panel"
+        role="tabpanel"
+        aria-labelledby="fb-tests-tab"
+        [hidden]="output() !== 'tests'"
+      >
+        @if (attempt()) {
+          <div class="result-summary" [class.success]="allPassed()">
+            <strong>{{
+              allPassed()
+                ? mode() === 'finish'
+                  ? 'Challenge complete.'
+                  : 'Run checks passed.'
+                : 'Some checks failed.'
+            }}</strong>
+            <p>{{ passes() }} of {{ attempt()!.results.length }} checks passed</p>
+          </div>
+          @for (result of attempt()!.results; track result.name) {
+            <div class="check-result">
+              <div>
+                <pc-icon [name]="result.pass ? 'check' : 'close'" /><strong>{{
+                  result.name
+                }}</strong
+                ><span>{{ result.pass ? 'Passed' : 'Failed' }}</span>
+              </div>
+              @if (!result.pass) {
+                <p>{{ result.hint }}</p>
+              }
+            </div>
+          }
+          @if (allPassed() && mode() === 'finish') {
+            <div class="explanation">
+              <h3>Explanation</h3>
+              <p>{{ exercise().explanation }}</p>
+            </div>
+          }
+        } @else {
+          <p class="empty">
+            Run checks commands. Finish records completion when every check passes.
+          </p>
+        }
+      </div>
+    </section>
+    <span class="sr-only" aria-live="polite">
+      @if (attempt()) {
+        {{ passes() }} of {{ attempt()!.results.length }} checks passed.
+        @if (attempt()!.errors.length) {
+          See Console for errors.
+        }
+      }
+    </span>
+  </div>
+</div>

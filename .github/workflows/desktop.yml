@@ -1,0 +1,88 @@
+name: Desktop installers
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: desktop-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  windows:
+    name: Windows installer and feature verification
+    runs-on: windows-2025
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - run: node node_modules/electron/install.js
+      - run: npm test
+      - run: npm run test:fullstack-router
+      - run: npm run test:crud-api
+      - run: npx tsc --noEmit --noUnusedLocals --noUnusedParameters -p tsconfig.app.json
+      - run: npm run package:windows
+      - name: Install the actual setup executable, including a path with spaces
+        run: ./scripts/windows-installer-test.ps1 Install
+      - name: Verify all practice runtimes and desktop UI in the installed app
+        run: npm run test:desktop
+      - name: Verify reinstall preserves app data
+        run: ./scripts/windows-installer-test.ps1 Reinstall
+      - name: Verify uninstall preserves app data
+        run: ./scripts/windows-installer-test.ps1 Uninstall
+      - run: npx playwright install chromium
+      - name: Run the full browser regression suite on Windows
+        run: npm run test:e2e
+      - name: Upload verified Windows installer
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: ProCode-Windows-x64
+          path: |
+            release/windows/*-setup.exe
+            release/windows/*-setup.exe.sha256
+          if-no-files-found: error
+          retention-days: 14
+      - name: Upload test diagnostics
+        if: failure()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: Windows-test-diagnostics
+          path: |
+            test-results/
+            test-results-desktop/
+            playwright-report/
+            release/windows/builder-debug.yml
+          retention-days: 7
+  macos:
+    name: Verify existing Apple Silicon packaging
+    runs-on: macos-15
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - run: node node_modules/electron/install.js
+      - run: npm run package:mac
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: ProCode-macOS-arm64
+          path: |
+            release/*.dmg
+            release/*.dmg.sha256
+          if-no-files-found: error
+          retention-days: 14

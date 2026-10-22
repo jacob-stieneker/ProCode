@@ -1,0 +1,412 @@
+dialog {
+  background: var(--panel);
+  color: var(--text);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-panel);
+  padding: 26px;
+  width: min(580px, calc(100vw - 32px));
+  max-height: 85vh;
+  box-shadow: 0 30px 100px var(--shadow);
+}
+dialog::backdrop {
+  background: var(--overlay);
+  backdrop-filter: blur(5px);
+}
+.dialog-header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+dialog h2 {
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: -0.6px;
+  line-height: 1.4;
+}
+.dialog-intro {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.9;
+  margin: 15px 0 20px;
+}
+.dialog-progress {
+  background: var(--accent-soft);
+  border: 1px solid var(--accent-border);
+  border-radius: var(--radius-card);
+  padding: 18px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+.dialog-progress strong {
+  font-size: 34px;
+  color: var(--accent);
+}
+.dialog-progress > span {
+  color: var(--accent);
+  font-size: 12px;
+}
+.completion-list {
+  margin: 14px 0 20px;
+}
+.completion-list > div {
+  display: flex;
+  gap: 12px;
+  padding: 13px 0;
+  border-bottom: 1px solid var(--border);
+}
+.completion-list pc-icon {
+  color: var(--accent);
+  margin-top: 4px;
+}
+.completion-list strong {
+  font-size: 12px;
+  display: block;
+}
+.completion-list small {
+  font-size: 10px;
+  display: block;
+  margin-top: 5px;
+  color: var(--muted);
+}
+.progress-empty {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.9;
+  margin: 18px 0 24px;
+}
+.dialog-footnote {
+  font-size: 10px;
+  line-height: 1.8;
+  color: var(--muted);
+  margin-top: 15px;
+}
+.roadmap-list > div {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 15px 0;
+  border-top: 1px solid var(--border);
+}
+.roadmap-icon {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  border-radius: var(--radius-card);
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.roadmap-list strong {
+  display: block;
+  font-size: 12px;
+}
+.roadmap-list small {
+  display: block;
+  font-size: 10px;
+  color: var(--muted);
+  line-height: 1.7;
+  margin-top: 5px;
+}
+.soon-tag {
+  margin-left: auto;
+  border: 1px solid var(--accent-border);
+  color: var(--accent);
+  font-size: 8px;
+  border-radius: 4px;
+  padding: 4px 6px;
+}
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 25px;
+}
+
+/* Appearance controls share the same semantic palette as the practice workspace. */
+.brand {
+  letter-spacing: -1.2px;
+}
+.brand-symbol pc-logo {
+  width: 20px;
+  height: 27px;
+}
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.appearance-trigger {
+  background: var(--panel);
+  min-height: 34px;
+  padding: 7px 11px;
+}
+.appearance-trigger pc-icon {
+  color: var(--accent);
+}
+.appearance-dialog {
+  width: min(640px, calc(100vw - 32px));
+}
+.appearance-dialog .dialog-intro {
+  margin-bottom: 24px;
+}
+.appearance-section + .appearance-section {
+  margin-top: 25px;
+}
+.appearance-section h3 {
+  font-size: 12px;
+  font-weight: 600;
+  margin: 0 0 12px;
+}
+.appearance-section-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+.appearance-section-heading > span {
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.6;
+}
+.mode-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+.mode-choice {
+  position: relative;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  padding: 15px;
+  background: var(--inset);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  color: var(--text);
+}
+.mode-icon {
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+.mode-choice strong {
+  font-size: 12px;
+  font-weight: 550;
+}
+.mode-choice small {
+  font-size: 10px;
+  margin-top: 5px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+.mode-choice.chosen {
+  background: var(--accent-soft);
+  border-color: var(--accent-border);
+}
+.mode-choice.chosen .mode-icon {
+  color: var(--accent);
+}
+.choice-check {
+  position: absolute;
+  right: 10px;
+  top: 12px;
+  color: var(--accent);
+  width: 14px;
+  height: 14px;
+}
+.theme-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+.theme-choice {
+  min-width: 0;
+  padding: 8px 8px 11px;
+  text-align: left;
+  border: 1px solid var(--border);
+  background: var(--inset);
+  border-radius: var(--radius-card);
+  color: var(--text);
+}
+.theme-choice:hover:not(:disabled),
+.mode-choice:hover:not(:disabled) {
+  border-color: var(--accent-border);
+  filter: none;
+}
+.theme-choice.chosen {
+  border-color: var(--accent-border);
+  box-shadow: 0 0 0 1px var(--accent-border);
+}
+.theme-swatch {
+  display: flex;
+  height: 68px;
+  overflow: hidden;
+  border-radius: 4px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+}
+.swatch-sidebar {
+  background: var(--sidebar);
+  width: 23%;
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding-top: 12px;
+}
+.swatch-sidebar i {
+  display: block;
+  width: 12px;
+  height: 3px;
+  background: var(--border-strong);
+  border-radius: 2px;
+}
+.swatch-sidebar i:first-child {
+  background: var(--accent);
+}
+.swatch-workspace {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  padding: 10px;
+  flex: 1;
+}
+.swatch-workspace > span:first-child {
+  width: 55%;
+  height: 3px;
+  background: var(--muted);
+  border-radius: 3px;
+}
+.swatch-editor {
+  padding: 6px 7px;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  background: var(--inset);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.swatch-editor i {
+  display: block;
+  width: 65%;
+  height: 3px;
+  background: var(--syntax-function);
+  border-radius: 3px;
+}
+.swatch-editor i:nth-child(2) {
+  width: 45%;
+  margin-left: 8px;
+  background: var(--syntax-keyword);
+}
+.swatch-editor i:nth-child(3) {
+  width: 75%;
+  background: var(--syntax-string);
+}
+.theme-choice-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  padding: 11px 3px 0;
+}
+.theme-choice-label strong {
+  font-size: 11px;
+  font-weight: 550;
+}
+.theme-choice-label pc-icon {
+  width: 13px;
+  height: 13px;
+  color: var(--accent);
+}
+.theme-choice > small {
+  display: block;
+  font-size: 9px;
+  line-height: 1.6;
+  padding: 4px 3px 0;
+  color: var(--muted);
+}
+.appearance-note {
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.8;
+  margin-top: 19px;
+}
+.appearance-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  border-top: 1px solid var(--border);
+  padding-top: 18px;
+  margin-top: 20px;
+}
+.appearance-footer > span {
+  font-size: 10px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+.editor-area:focus-within {
+  outline: 1px solid var(--accent-border);
+  outline-offset: -1px;
+}
+@media (max-width: 1050px) and (min-width: 541px) {
+  .brand-name {
+    display: none;
+  }
+  .brand-symbol pc-logo {
+    width: 25px;
+    height: 34px;
+  }
+}
+@media (max-width: 600px) {
+  .topbar-actions .local-badge {
+    display: none;
+  }
+}
+@media (max-width: 540px) {
+  .brand-symbol pc-logo {
+    width: 17px;
+    height: 23px;
+  }
+  .appearance-trigger {
+    font-size: 10px;
+    padding: 6px 9px;
+    min-height: 32px;
+  }
+  .appearance-dialog {
+    padding: 21px 17px;
+  }
+  .theme-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .mode-grid {
+    gap: 7px;
+  }
+  .mode-choice {
+    padding: 12px 9px;
+  }
+  .mode-choice small {
+    font-size: 9px;
+  }
+  .appearance-section-heading > span {
+    display: none;
+  }
+  .appearance-footer {
+    gap: 12px;
+  }
+  .appearance-footer > span {
+    font-size: 9px;
+  }
+}
+
+@media (max-width: 540px) {
+  dialog {
+    padding: 22px;
+  }
+}

@@ -1,0 +1,54 @@
+.angular-editor {
+  height: 470px;
+}
+.angular-console {
+  min-height: 160px;
+  padding: 20px;
+}
+.angular-console pre {
+  margin: 0 0 12px;
+  font-size: 13px;
+  max-height: none;
+}
+.angular-console .console-error {
+  color: var(--error);
+}
+.preview-note {
+  padding: 12px 20px;
+  background: var(--warning-bg);
+  color: var(--warning);
+}
+.angular-preview {
+  min-width: 0;
+  overflow: hidden;
+}
+.angular-preview:empty {
+  display: none;
+}
+.output-header button {
+  font-size: 13px;
+}
+.instructions details p {
+  margin-top: 12px;
+  font-size: 13px;
+}
+@media (max-width: 500px) {
+  .angular-editor {
+    height: 400px;
+  }
+  .output-header {
+    gap: 0;
+  }
+  .output-header button {
+    padding: 14px 5px;
+    font-size: 11px;
+    gap: 4px;
+  }
+  .output-header pc-icon {
+    width: 16px;
+    height: 16px;
+  }
+  .output-header span {
+    font-size: 10px;
+  }
+}

@@ -1,0 +1,1156 @@
+{
+  "procode/dark": {
+    "syntax-comment": {
+      "source": "#a3b3a3",
+      "applied": "#b4c1b4",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    }
+  },
+  "procode/light": {
+    "syntax-comment": {
+      "source": "#566650",
+      "applied": "#55654f",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "border-strong": {
+      "source": "#8397b3",
+      "applied": "#7a8ca6",
+      "minimum": 3,
+      "backgrounds": [
+        "panel",
+        "surface"
+      ]
+    }
+  },
+  "procode/midnight": {
+    "border-strong": {
+      "source": "#415773",
+      "applied": "#4e637d",
+      "minimum": 3,
+      "backgrounds": [
+        "panel",
+        "surface"
+      ]
+    }
+  },
+  "github/light": {
+    "syntax-keyword": {
+      "source": "#cf222e",
+      "applied": "#c3202b",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "syntax-function": {
+      "source": "#8250df",
+      "applied": "#7649cb",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "syntax-comment": {
+      "source": "#6e7781",
+      "applied": "#5e656e",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "syntax-operator": {
+      "source": "#cf222e",
+      "applied": "#c3202b",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "syntax-control": {
+      "source": "#cf222e",
+      "applied": "#c3202b",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    }
+  },
+  "github/dark": {
+    "muted": {
+      "source": "#7d8590",
+      "applied": "#989fa7",
+      "minimum": 4.5,
+      "backgrounds": [
+        "bg",
+        "sidebar",
+        "panel",
+        "surface",
+        "hover",
+        "inset"
+      ]
+    },
+    "accent": {
+      "source": "#2f81f7",
+      "applied": "#5f9ef9",
+      "minimum": 4.5,
+      "backgrounds": [
+        "bg",
+        "sidebar",
+        "panel",
+        "surface",
+        "hover",
+        "inset",
+        "accent-soft"
+      ]
+    },
+    "syntax-keyword": {
+      "source": "#ff7b72",
+      "applied": "#ffa59f",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "syntax-function": {
+      "source": "#d2a8ff",
+      "applied": "#d4acff",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "syntax-number": {
+      "source": "#79c0ff",
+      "applied": "#7ec3ff",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "syntax-comment": {
+      "source": "#8b949e",
+      "applied": "#b8bec4",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "syntax-operator": {
+      "source": "#ff7b72",
+      "applied": "#ffa59f",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "syntax-definition": {
+      "source": "#ffa657",
+      "applied": "#ffaa5e",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "syntax-property": {
+      "source": "#79c0ff",
+      "applied": "#7ec3ff",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "syntax-type": {
+      "source": "#79c0ff",
+      "applied": "#7ec3ff",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "syntax-boolean": {
+      "source": "#79c0ff",
+      "applied": "#7ec3ff",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "syntax-control": {
+      "source": "#ff7b72",
+      "applied": "#ffa59f",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    }
+  },
+  "github/midnight": {
+    "syntax-keyword": {
+      "source": "#e66f67",
+      "applied": "#e87870",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "syntax-comment": {
+      "source": "#7d858e",
+      "applied": "#939aa1",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "syntax-operator": {
+      "source": "#e66f67",
+      "applied": "#e87870",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "syntax-control": {
+      "source": "#e66f67",
+      "applied": "#e87870",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "border-strong": {
+      "source": "#485767",
+      "applied": "#536170",
+      "minimum": 3,
+      "backgrounds": [
+        "panel",
+        "surface"
+      ]
+    }
+  },
+  "visual-studio/light": {
+    "syntax-function": {
+      "source": "#795E26",
+      "applied": "#6f5623",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "syntax-number": {
+      "source": "#098658",
+      "applied": "#076744",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "syntax-comment": {
+      "source": "#008000",
+      "applied": "#006a00",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "syntax-type": {
+      "source": "#267f99",
+      "applied": "#1d6276",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "syntax-control": {
+      "source": "#AF00DB",
+      "applied": "#9700bc",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "border-strong": {
+      "source": "#919191",
+      "applied": "#8b8b8b",
+      "minimum": 3,
+      "backgrounds": [
+        "panel",
+        "surface"
+      ]
+    }
+  },
+  "visual-studio/dark": {
+    "muted": {
+      "source": "#9d9d9d",
+      "applied": "#a0a0a0",
+      "minimum": 4.5,
+      "backgrounds": [
+        "bg",
+        "sidebar",
+        "panel",
+        "surface",
+        "hover",
+        "inset"
+      ]
+    },
+    "accent": {
+      "source": "#3794ff",
+      "applied": "#53a3ff",
+      "minimum": 4.5,
+      "backgrounds": [
+        "bg",
+        "sidebar",
+        "panel",
+        "surface",
+        "hover",
+        "inset",
+        "accent-soft"
+      ]
+    },
+    "syntax-keyword": {
+      "source": "#569cd6",
+      "applied": "#96c2e6",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "syntax-string": {
+      "source": "#ce9178",
+      "applied": "#deb4a3",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "syntax-comment": {
+      "source": "#6A9955",
+      "applied": "#aac59e",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "syntax-type": {
+      "source": "#4EC9B0",
+      "applied": "#61cfb9",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "syntax-boolean": {
+      "source": "#569cd6",
+      "applied": "#96c2e6",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "syntax-control": {
+      "source": "#C586C0",
+      "applied": "#d9b0d6",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    }
+  },
+  "visual-studio/midnight": {
+    "syntax-keyword": {
+      "source": "#4d8cc1",
+      "applied": "#669cca",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "syntax-string": {
+      "source": "#b9826c",
+      "applied": "#be8b76",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "syntax-comment": {
+      "source": "#5f8a4c",
+      "applied": "#7fa170",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "syntax-boolean": {
+      "source": "#4d8cc1",
+      "applied": "#669cca",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "syntax-control": {
+      "source": "#b179ad",
+      "applied": "#b986b5",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "border-strong": {
+      "source": "#525260",
+      "applied": "#5e5e6b",
+      "minimum": 3,
+      "backgrounds": [
+        "panel",
+        "surface"
+      ]
+    }
+  },
+  "cursor/light": {
+    "muted": {
+      "source": "#696969",
+      "applied": "#676767",
+      "minimum": 4.5,
+      "backgrounds": [
+        "bg",
+        "sidebar",
+        "panel",
+        "surface",
+        "hover",
+        "inset"
+      ]
+    },
+    "syntax-function": {
+      "source": "#CD4500",
+      "applied": "#b03b00",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "syntax-string": {
+      "source": "#7565CC",
+      "applied": "#6356ad",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "syntax-comment": {
+      "source": "#727272",
+      "applied": "#636363",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "warning": {
+      "source": "#CD4500",
+      "applied": "#c54200",
+      "minimum": 4.5,
+      "backgrounds": [
+        "warning-bg"
+      ]
+    },
+    "border-strong": {
+      "source": "#898989",
+      "applied": "#868686",
+      "minimum": 3,
+      "backgrounds": [
+        "panel",
+        "surface"
+      ]
+    }
+  },
+  "cursor/dark": {
+    "error": {
+      "source": "#E34671",
+      "applied": "#e65a81",
+      "minimum": 4.5,
+      "backgrounds": [
+        "error-bg"
+      ]
+    }
+  },
+  "cursor/midnight": {
+    "syntax-comment": {
+      "source": "#8b8b8b",
+      "applied": "#909090",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "error": {
+      "source": "#d14068",
+      "applied": "#d2446b",
+      "minimum": 4.5,
+      "backgrounds": [
+        "error-bg"
+      ]
+    },
+    "border-strong": {
+      "source": "#555555",
+      "applied": "#5e5e5e",
+      "minimum": 3,
+      "backgrounds": [
+        "panel",
+        "surface"
+      ]
+    }
+  },
+  "codex/light": {
+    "syntax-keyword": {
+      "source": "#ab4f7a",
+      "applied": "#9a476e",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "syntax-number": {
+      "source": "#ac4f23",
+      "applied": "#a04921",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "syntax-string": {
+      "source": "#3a843f",
+      "applied": "#317036",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "syntax-operator": {
+      "source": "#ab4f7a",
+      "applied": "#9a476e",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "syntax-boolean": {
+      "source": "#ac4f23",
+      "applied": "#a04921",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "syntax-control": {
+      "source": "#ab4f7a",
+      "applied": "#9a476e",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    }
+  },
+  "codex/dark": {
+    "syntax-function": {
+      "source": "#b897f4",
+      "applied": "#bc9df5",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "syntax-variable": {
+      "source": "#b897f4",
+      "applied": "#bc9df5",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "syntax-definition": {
+      "source": "#b897f4",
+      "applied": "#bc9df5",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "syntax-type": {
+      "source": "#b897f4",
+      "applied": "#bc9df5",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "accent-border": {
+      "source": "#767676",
+      "applied": "#797979",
+      "minimum": 3,
+      "backgrounds": [
+        "panel",
+        "accent-soft"
+      ]
+    }
+  },
+  "codex/midnight": {
+    "border-strong": {
+      "source": "#555555",
+      "applied": "#5e5e5e",
+      "minimum": 3,
+      "backgrounds": [
+        "panel",
+        "surface"
+      ]
+    }
+  },
+  "claude/light": {
+    "muted": {
+      "source": "#898781",
+      "applied": "#6e6c67",
+      "minimum": 4.5,
+      "backgrounds": [
+        "bg",
+        "sidebar",
+        "panel",
+        "surface",
+        "hover",
+        "inset"
+      ]
+    },
+    "syntax-keyword": {
+      "source": "#c5621b",
+      "applied": "#964a15",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "syntax-function": {
+      "source": "#0073e6",
+      "applied": "#005dba",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "syntax-number": {
+      "source": "#cd2054",
+      "applied": "#b61c4b",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "syntax-string": {
+      "source": "#1e9e3c",
+      "applied": "#156d29",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "syntax-comment": {
+      "source": "#999999",
+      "applied": "#5f5f5f",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "syntax-operator": {
+      "source": "#737373",
+      "applied": "#5f5f5f",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "syntax-type": {
+      "source": "#8e6bd9",
+      "applied": "#694fa1",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "syntax-boolean": {
+      "source": "#cd2054",
+      "applied": "#b61c4b",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "syntax-control": {
+      "source": "#c5621b",
+      "applied": "#964a15",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    }
+  },
+  "claude/dark": {
+    "muted": {
+      "source": "#898781",
+      "applied": "#95938e",
+      "minimum": 4.5,
+      "backgrounds": [
+        "bg",
+        "sidebar",
+        "panel",
+        "surface",
+        "hover",
+        "inset"
+      ]
+    },
+    "syntax-keyword": {
+      "source": "#cc7bf4",
+      "applied": "#d28af5",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "syntax-comment": {
+      "source": "#818898",
+      "applied": "#a2a7b3",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "syntax-control": {
+      "source": "#cc7bf4",
+      "applied": "#d28af5",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    }
+  },
+  "claude/midnight": {
+    "syntax-keyword": {
+      "source": "#b86fdc",
+      "applied": "#bc78de",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "syntax-comment": {
+      "source": "#747a89",
+      "applied": "#9095a1",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "syntax-control": {
+      "source": "#b86fdc",
+      "applied": "#bc78de",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "border-strong": {
+      "source": "#57574d",
+      "applied": "#5f5f56",
+      "minimum": 3,
+      "backgrounds": [
+        "panel",
+        "surface"
+      ]
+    }
+  },
+  "pycharm/light": {
+    "muted": {
+      "source": "#73767c",
+      "applied": "#66696e",
+      "minimum": 4.5,
+      "backgrounds": [
+        "bg",
+        "sidebar",
+        "panel",
+        "surface",
+        "hover",
+        "inset"
+      ]
+    },
+    "syntax-function": {
+      "source": "#00627a",
+      "applied": "#006078",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "syntax-number": {
+      "source": "#1750eb",
+      "applied": "#1548d4",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "syntax-string": {
+      "source": "#067d17",
+      "applied": "#056513",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "syntax-comment": {
+      "source": "#8c8c8c",
+      "applied": "#585858",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "warning": {
+      "source": "#a56906",
+      "applied": "#9e6506",
+      "minimum": 4.5,
+      "backgrounds": [
+        "warning-bg"
+      ]
+    },
+    "error": {
+      "source": "#c54e58",
+      "applied": "#bf4c55",
+      "minimum": 4.5,
+      "backgrounds": [
+        "error-bg"
+      ]
+    },
+    "success": {
+      "source": "#338555",
+      "applied": "#318152",
+      "minimum": 4.5,
+      "backgrounds": [
+        "success-bg"
+      ]
+    },
+    "border-strong": {
+      "source": "#b5b7bd",
+      "applied": "#8d8f93",
+      "minimum": 3,
+      "backgrounds": [
+        "panel",
+        "surface"
+      ]
+    },
+    "accent-border": {
+      "source": "#bdd3ff",
+      "applied": "#818fad",
+      "minimum": 3,
+      "backgrounds": [
+        "panel",
+        "accent-soft"
+      ]
+    }
+  },
+  "pycharm/dark": {
+    "muted": {
+      "source": "#73767c",
+      "applied": "#9c9ea2",
+      "minimum": 4.5,
+      "backgrounds": [
+        "bg",
+        "sidebar",
+        "panel",
+        "surface",
+        "hover",
+        "inset"
+      ]
+    },
+    "syntax-keyword": {
+      "source": "#cf8e6d",
+      "applied": "#d9a68c",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "syntax-control": {
+      "source": "#cf8e6d",
+      "applied": "#d9a68c",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "syntax-boolean": {
+      "source": "#cf8e6d",
+      "applied": "#d9a68c",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "syntax-function": {
+      "source": "#56a8f5",
+      "applied": "#73b7f7",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "syntax-number": {
+      "source": "#2aacb8",
+      "applied": "#5dc0c9",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "syntax-string": {
+      "source": "#6aab73",
+      "applied": "#8bbd92",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "syntax-comment": {
+      "source": "#7a7e85",
+      "applied": "#afb2b6",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "syntax-property": {
+      "source": "#c77dbb",
+      "applied": "#d7a1ce",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "border-strong": {
+      "source": "#5f6269",
+      "applied": "#6f7278",
+      "minimum": 3,
+      "backgrounds": [
+        "panel",
+        "surface"
+      ]
+    },
+    "accent-border": {
+      "source": "#2e4d89",
+      "applied": "#697faa",
+      "minimum": 3,
+      "backgrounds": [
+        "panel",
+        "accent-soft"
+      ]
+    }
+  },
+  "pycharm/midnight": {
+    "syntax-string": {
+      "source": "#5f9a68",
+      "applied": "#619b6a",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "syntax-comment": {
+      "source": "#6e7178",
+      "applied": "#8b8d93",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "syntax-property": {
+      "source": "#b370a8",
+      "applied": "#b879ad",
+      "minimum": 4.5,
+      "backgrounds": [
+        "inset",
+        "editor-line",
+        "selection"
+      ]
+    },
+    "border-strong": {
+      "source": "#565c66",
+      "applied": "#5d636c",
+      "minimum": 3,
+      "backgrounds": [
+        "panel",
+        "surface"
+      ]
+    }
+  }
+}

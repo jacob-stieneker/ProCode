@@ -1,0 +1,243 @@
+@if (store.warning()) {
+  <div class="notice" role="alert">
+    {{ store.warning() }} <button (click)="store.export()">Export work</button>
+  </div>
+}
+<section aria-label="HTML and CSS difficulty" class="levels">
+  @for (level of levels; track level.id) {
+    <button
+      [attr.aria-pressed]="store.state().difficulty === level.id"
+      [class.selected]="store.state().difficulty === level.id"
+      [disabled]="busy()"
+      (click)="change(undefined, level.id)"
+    >
+      {{ level.name }}
+    </button>
+  }
+</section>
+<div class="selectors">
+  <label
+    >Topic<select
+      aria-label="Web topic"
+      [ngModel]="store.state().topic"
+      [disabled]="busy()"
+      (ngModelChange)="change($event)"
+    >
+      <option value="html">HTML</option>
+      <option value="css">CSS</option>
+    </select></label
+  >
+  <label
+    >Exercise<select
+      aria-label="Web exercise"
+      [ngModel]="exercise().id"
+      [disabled]="busy()"
+      (ngModelChange)="change(undefined, undefined, $event)"
+    >
+      @for (e of list(); track e.id) {
+        <option [value]="e.id">{{ e.title }}</option>
+      }
+    </select></label
+  >
+  <button class="export" (click)="store.export()"><pc-icon name="download" />Export work</button>
+</div>
+<div class="workspace">
+  <section class="panel instructions" aria-label="Web challenge instructions">
+    <h2>{{ exercise().title }}</h2>
+    <div class="heading">
+      <span class="topic">{{ exercise().topic.toUpperCase() }}</span>
+      @if (completed()) {
+        <span class="complete"><pc-icon name="check" />Completed</span>
+      }
+    </div>
+    <p>{{ exercise().description }}</p>
+    <h3>Requirements</h3>
+    <ul>
+      @for (requirement of exercise().requirements; track requirement) {
+        <li>{{ requirement }}</li>
+      }
+    </ul>
+    @if (exercise().markup) {
+      <details>
+        <summary>Provided HTML</summary>
+        <pre tabindex="0">{{ exercise().markup }}</pre>
+      </details>
+    }
+    <details>
+      <summary>Check coverage</summary>
+      <ul>
+        @for (check of exercise().checks; track check.name) {
+          <li>
+            {{ check.name }} <small>{{ check.width }}px</small>
+          </li>
+        }
+      </ul>
+    </details>
+    <button
+      class="hint"
+      (click)="hints.set(hints() + 1)"
+      [disabled]="hints() >= exercise().hints.length"
+    >
+      <pc-icon name="bulb" />Hint {{ hints() }} / {{ exercise().hints.length }}
+    </button>
+    @for (hint of exercise().hints.slice(0, hints()); track hint) {
+      <p class="hint-text">{{ hint }}</p>
+    }
+  </section>
+  <div class="workbench">
+    <section class="panel editor-panel" aria-label="Web code editor">
+      <div class="toolbar">
+        <strong>{{ exercise().topic === 'html' ? 'index.html' : 'styles.css' }}</strong
+        ><button
+          aria-label="Reset web starter code"
+          [disabled]="busy()"
+          (click)="resetConfirm.set(true)"
+        >
+          <pc-icon name="reset" />
+        </button>
+      </div>
+      @if (resetConfirm()) {
+        <div class="reset-confirm" role="group" aria-label="Reset code confirmation">
+          <span>Replace this draft with starter code?</span
+          ><button (click)="resetConfirm.set(false)">Keep my code</button
+          ><button (click)="reset()">Reset code</button>
+        </div>
+      }
+      <div class="editor">
+        <pc-editor
+          [code]="code()"
+          [contextKey]="key()"
+          [language]="exercise().topic"
+          [dark]="appearance.preferences().mode !== 'light'"
+          [disabled]="busy()"
+          (codeChange)="updateCode($event)"
+          (runCode)="execute('run')"
+        />
+      </div>
+      <div class="actions">
+        <button class="run-button" [disabled]="busy()" (click)="execute('run')">
+          <pc-icon name="play" />Run</button
+        ><button class="primary" [disabled]="busy()" (click)="execute('finish')">
+          Finish<pc-icon name="arrow" /></button
+        ><small>{{ store.warning() ? 'Session active' : 'Saved locally' }}</small>
+      </div>
+    </section>
+    <section
+      class="panel output"
+      aria-label="Web practice output"
+      [attr.aria-busy]="busy()"
+      [attr.data-completed-attempt]="completedAttempt()"
+    >
+      <div
+        class="output-header"
+        role="tablist"
+        aria-label="Web output"
+        (keydown)="navigate($event)"
+      >
+        <button
+          id="web-preview-tab"
+          role="tab"
+          aria-controls="web-preview-panel"
+          [attr.aria-selected]="output() === 'preview'"
+          [tabIndex]="output() === 'preview' ? 0 : -1"
+          (click)="output.set('preview')"
+        >
+          <pc-icon name="monitor" />Preview
+        </button>
+        <button
+          id="web-tests-tab"
+          role="tab"
+          aria-controls="web-tests-panel"
+          [attr.aria-selected]="output() === 'tests'"
+          [tabIndex]="output() === 'tests' ? 0 : -1"
+          (click)="output.set('tests')"
+        >
+          <pc-icon name="check" />Test results
+          @if (results().length) {
+            <span>{{ passes() }}/{{ results().length }}</span>
+          }
+        </button>
+      </div>
+      <div
+        id="web-preview-panel"
+        role="tabpanel"
+        aria-labelledby="web-preview-tab"
+        [hidden]="output() !== 'preview'"
+      >
+        <div class="preview-tools">
+          <label
+            >Viewport<select
+              aria-label="Preview width"
+              [ngModel]="width()"
+              (ngModelChange)="width.set(+$event)"
+            >
+              @for (size of widths; track size) {
+                <option [value]="size">{{ size }}px</option>
+              }
+            </select></label
+          ><small>Scripts and remote assets disabled</small>
+        </div>
+        <div class="preview-scroll" tabindex="0" aria-label="Preview scroll area">
+          <iframe
+            #preview
+            title="Live exercise preview"
+            sandbox="allow-same-origin"
+            [style.width.px]="width()"
+            (load)="loadedPreview()"
+          ></iframe>
+        </div>
+      </div>
+      <div
+        id="web-tests-panel"
+        role="tabpanel"
+        aria-labelledby="web-tests-tab"
+        [hidden]="output() !== 'tests'"
+      >
+        @if (error()) {
+          <p class="notice" role="alert">{{ error() }}</p>
+        }
+        @if (results().length) {
+          <div class="result-summary" [class.success]="allPassed()">
+            <strong>{{
+              allPassed()
+                ? mode() === 'finish'
+                  ? 'Challenge complete.'
+                  : 'Run checks passed.'
+                : 'Some checks failed.'
+            }}</strong>
+            <p>{{ passes() }} of {{ results().length }} checks passed</p>
+          </div>
+          @for (result of results(); track result.name) {
+            <div class="check-result">
+              <div>
+                <pc-icon [name]="result.pass ? 'check' : 'close'" /><strong>{{
+                  result.name
+                }}</strong
+                ><span>{{ result.pass ? 'Passed' : 'Failed' }} · {{ result.width }}px</span>
+              </div>
+              @if (!result.pass) {
+                <p>{{ result.hint }}</p>
+              }
+            </div>
+          }
+          @if (allPassed() && mode() === 'finish') {
+            <div class="explanation">
+              <h3>Explanation</h3>
+              <p>{{ exercise().explanation }}</p>
+            </div>
+          }
+        } @else if (!error()) {
+          <p class="empty">
+            Run checks the first three requirements. Finish checks all requirements, including
+            mobile layout.
+          </p>
+        }
+      </div>
+    </section>
+    <span class="sr-only" aria-live="polite">
+      @if (results().length) {
+        {{ passes() }} of {{ results().length }} checks passed
+      }
+    </span>
+  </div>
+</div>

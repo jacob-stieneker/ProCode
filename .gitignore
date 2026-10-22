@@ -1,0 +1,75 @@
+# See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
+
+# Compiled output
+/dist
+/tmp
+/out-tsc
+/bazel-out
+
+# Node
+/node_modules
+npm-debug.log
+yarn-error.log
+
+# IDEs and editors
+.idea/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# Visual Studio Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/mcp.json
+.history/*
+
+# Miscellaneous
+/.angular/cache
+.sass-cache/
+/connect.lock
+/coverage
+/libpeerconnection.log
+testem.log
+/typings
+__screenshots__/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Generated local Python assets and browser test reports
+/public/runtime/pyodide/
+/playwright-report/
+/test-results/
+
+# Generated local Angular compiler and runtime
+/public/runtime/angular/
+
+# Generated local full-stack runtime
+/public/runtime/fullstack/
+
+# Generated local analyzers
+/public/runtime/clean/
+/public/runtime/method/
+
+# Local credentials and machine-specific configuration
+.env
+.env.*
+!.env.example
+*.pfx
+*.p12
+*.key
+/.codex/
+/.agents/
+.vscode/mcp.json
+
+# Packaged desktop apps, installers and isolated test artifacts
+/.desktop-stage/
+/release/
+/test-results-desktop/

@@ -1,0 +1,297 @@
+@if (store.warning()) {
+  <div class="notice" role="alert">
+    {{ store.warning() }}<button (click)="store.export()">Export work</button>
+  </div>
+}
+<section class="levels" aria-label="Full-stack difficulty">
+  @for (level of levels; track level.id) {
+    <button
+      [attr.aria-pressed]="store.state().difficulty === level.id"
+      [class.selected]="store.state().difficulty === level.id"
+      [disabled]="busy()"
+      (click)="change(level.id)"
+    >
+      {{ level.name }}
+    </button>
+  }
+</section>
+<div class="selectors">
+  <label
+    >Exercise<select
+      aria-label="Full-stack exercise"
+      [ngModel]="exercise().id"
+      [disabled]="busy()"
+      (ngModelChange)="change(undefined, $event)"
+    >
+      @for (e of list(); track e.id) {
+        <option [value]="e.id">{{ e.title }}</option>
+      }
+    </select></label
+  ><button (click)="store.export()"><pc-icon name="download" />Export work</button>
+</div>
+<div class="workspace">
+  <section class="panel instructions" aria-label="Full-stack challenge instructions">
+    <h2>{{ exercise().title }}</h2>
+    <div class="heading">
+      <span class="topic">Angular · TypeScript · CSS · API</span>
+      @if (completed()) {
+        <span class="complete"><pc-icon name="check" />Completed</span>
+      }
+    </div>
+    <p>{{ exercise().description }}</p>
+    <h3>Requirements</h3>
+    <ul>
+      @for (requirement of exercise().requirements; track requirement) {
+        <li>{{ requirement }}</li>
+      }
+    </ul>
+    <details>
+      <summary>Check coverage</summary>
+      <ul>
+        @for (check of exercise().scenarios; track check.name) {
+          <li>{{ check.name }}</li>
+        }
+      </ul>
+    </details>
+    <details>
+      <summary>API contract</summary>
+      <p>{{ exercise().apiReference }}</p>
+      <h3>Initial API data</h3>
+      <pre tabindex="0">{{ initialData() }}</pre>
+    </details>
+    <details>
+      <summary>Runtime reference</summary>
+      <p>
+        Each scenario and each preview starts with fresh API data. Reload inside your project
+        refetches the same session. Run checks three scenarios; Finish checks all scenarios. Edits
+        are saved locally.
+      </p>
+      <p>
+        Supplied: Angular startup, template compilation, forms imports, dependency injection, a
+        local API service, and API route dispatch. Complete the bindings, handlers, validation and
+        data operations. index.html is the Angular template; app.ts exports AppComponent.
+      </p>
+      <p>
+        Client imports: &#64;angular/core, &#64;angular/common, &#64;angular/forms,
+        &#64;angular/core/rxjs-interop, rxjs, rxjs/operators, and &#64;procode/fullstack
+        (PracticeApi and projectTemplate). API imports: &#64;procode/server (createRouter).
+        Templates support Angular bindings, control flow and forms. Use signals for state updated
+        after asynchronous requests. External resources are blocked. Existing mount(api) clients
+        remain supported with sanitized plain HTML.
+      </p>
+      <p>
+        API code runs in a separate worker. This is a local request transport and in-memory data,
+        not a real HTTP server or Firebase backend. TypeScript is transpiled with syntax
+        diagnostics; a full project type checker and arbitrary package imports are not provided.
+      </p>
+    </details>
+    <button
+      class="hint"
+      [disabled]="hints() >= exercise().hints.length"
+      (click)="hints.set(hints() + 1)"
+    >
+      <pc-icon name="bulb" />Hint {{ hints() }} / {{ exercise().hints.length }}
+    </button>
+    @for (hint of exercise().hints.slice(0, hints()); track hint) {
+      <p class="hint-text">{{ hint }}</p>
+    }
+  </section>
+  <div class="workbench">
+    <section class="panel editor-panel" aria-label="Full-stack code editor">
+      <div class="toolbar">
+        <strong>{{ file() }}</strong
+        ><button
+          aria-label="Reset Full-stack project"
+          [disabled]="busy()"
+          (click)="resetConfirm.set(true)"
+        >
+          <pc-icon name="reset" />
+        </button>
+      </div>
+      @if (resetConfirm()) {
+        <div class="reset-confirm" role="group" aria-label="Reset Full-stack confirmation">
+          <span>Replace all four files with the starter project?</span
+          ><button (click)="resetConfirm.set(false)">Keep my project</button
+          ><button (click)="reset()">Reset project</button>
+        </div>
+      }
+      <div class="file-tabs" role="tablist" aria-label="Project files" (keydown)="navigate($event)">
+        @for (name of fileNames; track name) {
+          <button
+            role="tab"
+            [id]="'file-' + name"
+            aria-controls="project-editor-panel"
+            [attr.aria-selected]="file() === name"
+            [tabIndex]="file() === name ? 0 : -1"
+            [disabled]="busy()"
+            (click)="file.set(name)"
+          >
+            {{ name }}
+          </button>
+        }
+      </div>
+      <div
+        id="project-editor-panel"
+        role="tabpanel"
+        [attr.aria-labelledby]="'file-' + file()"
+        class="editor fullstack-editor"
+      >
+        <pc-editor
+          [code]="code()"
+          [contextKey]="key() + file()"
+          [language]="language()"
+          [dark]="appearance.preferences().mode !== 'light'"
+          [disabled]="busy()"
+          (codeChange)="updateCode($event)"
+          (runCode)="execute('run')"
+        />
+      </div>
+      <div class="actions">
+        <button class="run-button" [disabled]="busy()" (click)="execute('run')">
+          <pc-icon name="play" />Run</button
+        ><button class="primary" [disabled]="busy()" (click)="execute('finish')">
+          Finish<pc-icon name="arrow" /></button
+        ><small>{{ store.warning() ? 'Session active' : 'Saved locally' }}</small>
+      </div>
+    </section>
+    <section
+      class="panel output"
+      aria-label="Full-stack practice output"
+      [attr.aria-busy]="busy()"
+      [attr.data-completed-attempt]="completedAttempt()"
+    >
+      <div
+        class="output-header"
+        role="tablist"
+        aria-label="Full-stack output"
+        (keydown)="navigate($event)"
+      >
+        <button
+          id="fs-console-tab"
+          role="tab"
+          aria-controls="fs-console-panel"
+          [attr.aria-selected]="output() === 'console'"
+          [tabIndex]="output() === 'console' ? 0 : -1"
+          (click)="output.set('console')"
+        >
+          <pc-icon name="terminal" />Console
+        </button>
+        <button
+          id="fs-preview-tab"
+          role="tab"
+          aria-controls="fs-preview-panel"
+          [attr.aria-selected]="output() === 'preview'"
+          [tabIndex]="output() === 'preview' ? 0 : -1"
+          (click)="output.set('preview')"
+        >
+          <pc-icon name="monitor" />Preview
+        </button>
+        <button
+          id="fs-tests-tab"
+          role="tab"
+          aria-controls="fs-tests-panel"
+          [attr.aria-selected]="output() === 'tests'"
+          [tabIndex]="output() === 'tests' ? 0 : -1"
+          (click)="output.set('tests')"
+        >
+          <pc-icon name="check" />Test results
+          @if (results().length) {
+            <span>{{ passes() }}/{{ results().length }}</span>
+          }
+        </button>
+      </div>
+      <div
+        id="fs-console-panel"
+        role="tabpanel"
+        aria-labelledby="fs-console-tab"
+        [hidden]="output() !== 'console'"
+        class="angular-console"
+      >
+        @for (error of errors(); track error) {
+          <pre class="console-error" tabindex="0">{{ error }}</pre>
+        }
+        @for (log of logs(); track $index) {
+          <pre tabindex="0">{{ log }}</pre>
+        }
+        @if (!errors().length && !logs().length) {
+          <p>{{ mode() ? 'No console output.' : 'Run to build and test.' }}</p>
+        }
+      </div>
+      <div
+        id="fs-preview-panel"
+        role="tabpanel"
+        aria-labelledby="fs-preview-tab"
+        [hidden]="output() !== 'preview'"
+      >
+        @if (!previewReady()) {
+          <p class="empty">Run to preview the project.</p>
+        }
+        @if (previewStale()) {
+          <p class="preview-note">Code changed. Run to refresh.</p>
+        }
+        <div class="preview-tools">
+          <button [disabled]="!previewReady() || busy()" (click)="failNext()">
+            Fail next request</button
+          ><button [disabled]="!previewReady() || busy()" (click)="failNext('after')">
+            Lose next response
+          </button>
+        </div>
+        <div #previewHost class="fullstack-preview"></div>
+      </div>
+      <div
+        id="fs-tests-panel"
+        role="tabpanel"
+        aria-labelledby="fs-tests-tab"
+        [hidden]="output() !== 'tests'"
+      >
+        @if (results().length) {
+          <div class="result-summary" [class.success]="allPassed()">
+            <strong>{{
+              allPassed()
+                ? mode() === 'finish'
+                  ? 'Challenge complete.'
+                  : 'Run checks passed.'
+                : 'Some checks failed.'
+            }}</strong>
+            <p>{{ passes() }} of {{ results().length }} checks passed</p>
+          </div>
+          @for (result of results(); track result.name) {
+            <div class="check-result">
+              <div>
+                <pc-icon [name]="result.pass ? 'check' : 'close'" /><strong>{{
+                  result.name
+                }}</strong
+                ><span>{{ result.pass ? 'Passed' : 'Failed' }}</span>
+              </div>
+              @if (!result.pass) {
+                <pre tabindex="0">{{ result.actual }}</pre>
+                <p>{{ result.hint }}</p>
+              }
+            </div>
+          }
+          @if (allPassed() && mode() === 'finish') {
+            <div class="explanation">
+              <h3>Explanation</h3>
+              <p>{{ exercise().explanation }}</p>
+            </div>
+          }
+        } @else {
+          <p class="empty">
+            {{
+              errors().length
+                ? 'Compilation or runtime failed. See Console.'
+                : 'Run checks three scenarios. Finish checks all scenarios.'
+            }}
+          </p>
+        }
+      </div>
+    </section>
+    <span class="sr-only" aria-live="polite">
+      @if (errors().length) {
+        Full-stack execution reported an error.
+      } @else if (results().length) {
+        {{ passes() }} of {{ results().length }} checks passed
+      }
+    </span>
+  </div>
+</div>

@@ -1,0 +1,32 @@
+.commands {
+  display: block;
+  width: 100%;
+  min-height: 280px;
+  resize: vertical;
+  border: 0;
+  padding: 20px;
+  background: var(--inset);
+  color: var(--text);
+  font:
+    14px/1.8 ui-monospace,
+    SFMono-Regular,
+    Consolas,
+    monospace;
+  tab-size: 2;
+}
+.commands:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+.console {
+  padding: 16px 20px;
+}
+.console pre {
+  max-height: 420px;
+}
+.console-error {
+  color: var(--error);
+}
+a {
+  color: var(--accent);
+}

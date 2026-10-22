@@ -1,0 +1,660 @@
+/* Shared workbench refinement. Source palettes and editor token colors stay authoritative. */
+:root .app-shell.workspace-shell {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-variant-numeric: tabular-nums;
+  min-height: 100dvh;
+}
+:root .app-shell.workspace-shell h1,
+:root .app-shell.workspace-shell h2,
+:root .app-shell.workspace-shell h3 {
+  text-wrap: balance;
+  letter-spacing: -0.025em;
+}
+:root .app-shell.workspace-shell button {
+  transition: transform 80ms ease-out;
+}
+:root .app-shell.workspace-shell button:hover:not(:disabled) {
+  filter: none;
+}
+:root .app-shell.workspace-shell button:active:not(:disabled) {
+  transform: translateY(1px);
+}
+:root .app-shell.workspace-shell button:focus-visible,
+:root .app-shell.workspace-shell select:focus-visible,
+:root .app-shell.workspace-shell input:focus-visible,
+:root .app-shell.workspace-shell textarea:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -3px;
+}
+:root .app-shell.workspace-shell input,
+:root .app-shell.workspace-shell textarea {
+  caret-color: var(--accent);
+}
+:root .app-shell.workspace-shell .sidebar {
+  width: 208px;
+  padding: 30px 14px 20px;
+}
+:root .app-shell.workspace-shell .brand {
+  font-size: 29px;
+  font-weight: 720;
+  letter-spacing: -0.035em;
+  margin: 0 12px 6px;
+}
+:root .app-shell.workspace-shell .brand-slogan {
+  margin: 0 12px 34px;
+  font-size: 11px;
+}
+:root .app-shell.workspace-shell .nav-label {
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 11px;
+  margin: 0 12px 12px;
+}
+:root .app-shell.workspace-shell .nav-item {
+  min-height: 42px;
+  padding: 10px 11px;
+  gap: 11px;
+  margin-bottom: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  border: 1px solid transparent;
+  border-radius: var(--radius-control);
+  position: relative;
+}
+:root .app-shell.workspace-shell .nav-item > pc-icon {
+  width: 18px;
+  height: 18px;
+}
+:root .app-shell.workspace-shell .nav-item.active {
+  background: var(--accent-soft);
+  border-color: transparent;
+  color: var(--accent);
+}
+:root .app-shell.workspace-shell .nav-item.active::before {
+  content: '';
+  position: absolute;
+  left: -14px;
+  top: 10px;
+  bottom: 10px;
+  width: 2px;
+  background: var(--accent);
+  border-radius: 0 2px 2px 0;
+}
+:root .app-shell.workspace-shell .nav-item:hover:not(.active) {
+  background: var(--hover);
+}
+:root .app-shell.workspace-shell .nav-count {
+  background: none;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 500;
+}
+:root .app-shell.workspace-shell .nav-item.active .nav-count {
+  color: var(--accent);
+}
+:root .app-shell.workspace-shell .sidebar-bottom {
+  padding-top: 24px;
+}
+:root .app-shell.workspace-shell .progress-card {
+  border: 0;
+  border-top: 1px solid var(--border);
+  border-radius: 0;
+  background: none;
+  padding: 20px 11px 0;
+}
+:root .app-shell.workspace-shell .small-label {
+  color: var(--muted);
+  letter-spacing: 0.08em;
+  font-size: 9px;
+}
+:root .app-shell.workspace-shell .progress-card > span:last-child {
+  color: var(--secondary);
+  font-size: 10px;
+}
+:root .app-shell.workspace-shell .progress-track {
+  height: 3px;
+  margin: 14px 0 10px;
+}
+:root .app-shell.workspace-shell .main-shell {
+  margin-left: 208px;
+  width: calc(100% - 208px);
+}
+:root .app-shell.workspace-shell .topbar {
+  min-height: 64px;
+  height: auto;
+  padding: 14px 30px;
+  background: var(--bg);
+}
+:root .app-shell.workspace-shell .breadcrumb {
+  font-size: 11px;
+  gap: 12px;
+}
+:root .app-shell.workspace-shell .breadcrumb h1 {
+  font-size: 14px;
+  font-weight: 650;
+  letter-spacing: -0.015em;
+}
+:root .app-shell.workspace-shell .topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+:root .app-shell.workspace-shell .topbar-actions button {
+  background: transparent;
+  border-color: transparent;
+  min-height: 34px;
+  padding: 7px 10px;
+  font-size: 11px;
+}
+:root .app-shell.workspace-shell .topbar-actions button:hover {
+  background: var(--hover);
+}
+:root .app-shell.workspace-shell .focus-control[aria-pressed='true'] {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+:root .app-shell.workspace-shell main {
+  padding: 24px 30px 32px;
+  max-width: 1760px;
+}
+/* Compact level selectors retain the original labels and pressed states. */
+:root .app-shell.workspace-shell .difficulty-section {
+  margin-bottom: 0;
+}
+:root .app-shell.workspace-shell .difficulty-section .section-label {
+  display: none;
+}
+:root .app-shell.workspace-shell .difficulty-grid,
+:root .app-shell.workspace-shell .levels {
+  display: flex;
+  width: fit-content;
+  max-width: 100%;
+  gap: 4px;
+  padding: 4px;
+  margin: 0 0 22px;
+  background: var(--sidebar);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-control);
+}
+:root .app-shell.workspace-shell .difficulty-card,
+:root .app-shell.workspace-shell .levels button {
+  min-height: 36px;
+  padding: 8px 16px;
+  margin: 0;
+  width: auto;
+  flex: 1;
+  border: 1px solid transparent;
+  border-radius: var(--radius-control);
+  background: transparent;
+  color: var(--muted);
+  white-space: nowrap;
+  box-shadow: none;
+  font-size: 12px;
+  font-weight: 550;
+  justify-content: center;
+}
+:root .app-shell.workspace-shell .level-copy strong {
+  font: inherit;
+}
+:root .app-shell.workspace-shell .level-bars,
+:root .app-shell.workspace-shell .radio-indicator {
+  display: none;
+}
+:root .app-shell.workspace-shell .difficulty-card.selected,
+:root .app-shell.workspace-shell .levels button.selected {
+  background: var(--surface);
+  color: var(--text);
+  border-color: var(--border-strong);
+}
+:root .app-shell.workspace-shell .difficulty-card:hover:not(.selected),
+:root .app-shell.workspace-shell .levels button:hover:not(.selected) {
+  background: var(--hover);
+  color: var(--text);
+}
+:root .app-shell.workspace-shell .practice-meta {
+  margin: 0 0 14px;
+}
+:root .app-shell.workspace-shell .practice-meta h2 {
+  font-size: 13px;
+  color: var(--secondary);
+}
+:root .app-shell.workspace-shell .practice-meta > span {
+  color: var(--muted);
+  font-size: 10px;
+}
+:root .app-shell.workspace-shell .catalog-controls {
+  margin-bottom: 20px;
+  gap: 14px;
+  grid-template-columns: minmax(180px, 0.65fr) minmax(0, 1.35fr);
+}
+:root .app-shell.workspace-shell .catalog-field,
+:root .app-shell.workspace-shell .selectors label {
+  gap: 7px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--muted);
+}
+:root .app-shell.workspace-shell .catalog-controls select,
+:root .app-shell.workspace-shell .selectors select {
+  min-height: 42px;
+  padding: 10px 12px;
+  font-size: 13px;
+  background: var(--bg);
+  border-color: var(--border-strong);
+  border-radius: var(--radius-control);
+}
+:root .app-shell.workspace-shell .selectors {
+  margin-bottom: 20px;
+  gap: 14px;
+}
+:root .app-shell.workspace-shell .selectors > button {
+  min-height: 42px;
+  font-size: 11px;
+  background: transparent;
+}
+/* One continuous workbench, with a reading pane and an execution pane. */
+:root .app-shell.workspace-shell .practice-grid,
+:root .app-shell.workspace-shell .workspace {
+  grid-template-columns: minmax(280px, 0.85fr) minmax(0, 1.65fr);
+  gap: 0;
+  align-items: stretch;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-panel);
+  overflow: hidden;
+  background: var(--panel);
+}
+:root .app-shell.workspace-shell .practice-grid > .panel,
+:root .app-shell.workspace-shell .workspace > .panel,
+:root .app-shell.workspace-shell .coding-column > .panel,
+:root .app-shell.workspace-shell .workbench > .panel {
+  border: 0;
+  border-radius: 0;
+}
+:root .app-shell.workspace-shell .practice-grid > .problem-panel,
+:root .app-shell.workspace-shell .workspace > .instructions {
+  border-right: 1px solid var(--border);
+}
+:root .app-shell.workspace-shell .coding-column,
+:root .app-shell.workspace-shell .workbench {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  min-width: 0;
+}
+:root .app-shell.workspace-shell .coding-column .results-panel,
+:root .app-shell.workspace-shell .workbench .output {
+  border-top: 1px solid var(--border);
+  flex: 1;
+}
+:root .app-shell.workspace-shell .problem-content,
+:root .app-shell.workspace-shell .instructions {
+  padding: 26px 24px;
+}
+:root .app-shell.workspace-shell .challenge-title h3,
+:root .app-shell.workspace-shell .instructions h2 {
+  font-size: 25px;
+  font-weight: 650;
+  line-height: 1.25;
+  margin: 0 0 16px;
+}
+:root .app-shell.workspace-shell .challenge-tags {
+  margin: 0 0 12px;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-size: 11px;
+}
+:root .app-shell.workspace-shell .difficulty-tag {
+  background: none;
+  padding: 0;
+  color: var(--muted);
+  border: 0;
+  font-size: 11px;
+}
+:root .app-shell.workspace-shell .instructions .heading {
+  margin-bottom: 20px;
+}
+:root .app-shell.workspace-shell .topic {
+  color: var(--muted);
+  font-size: 11px;
+}
+:root .app-shell.workspace-shell .description,
+:root .app-shell.workspace-shell .requirements,
+:root .app-shell.workspace-shell .instructions p,
+:root .app-shell.workspace-shell .instructions li {
+  font-size: 13px;
+  line-height: 1.75;
+  max-width: 68ch;
+}
+:root .app-shell.workspace-shell .requirements li + li,
+:root .app-shell.workspace-shell .instructions li + li {
+  margin-top: 9px;
+}
+:root .app-shell.workspace-shell .problem-content h4,
+:root .app-shell.workspace-shell .instructions h3 {
+  font-size: 12px;
+  font-weight: 650;
+  margin: 26px 0 10px;
+  color: var(--text);
+}
+:root .app-shell.workspace-shell .time-estimate {
+  font-size: 10px;
+  margin: 0 0 22px;
+}
+:root .app-shell.workspace-shell .example {
+  border: 0;
+  border-top: 1px solid var(--border);
+  border-radius: 0;
+  margin-top: 16px;
+  padding: 14px 0 0;
+  background: transparent;
+}
+:root .app-shell.workspace-shell .example-title {
+  font-size: 11px;
+  padding: 0 0 12px;
+  background: none;
+}
+:root .app-shell.workspace-shell .example-title span {
+  font-size: 10px;
+}
+:root .app-shell.workspace-shell .example-code {
+  background: var(--inset);
+  padding: 12px;
+  border-radius: var(--radius-control);
+}
+:root .app-shell.workspace-shell .example-code code {
+  font-size: 11px;
+}
+:root .app-shell.workspace-shell .editor-toolbar,
+:root .app-shell.workspace-shell .toolbar {
+  min-height: 49px;
+  padding: 8px 16px;
+  background: var(--sidebar);
+}
+:root .app-shell.workspace-shell .file-name,
+:root .app-shell.workspace-shell .toolbar strong {
+  font-size: 12px;
+  font-weight: 550;
+}
+:root .app-shell.workspace-shell .editor-area,
+:root .app-shell.workspace-shell .editor,
+:root .app-shell.workspace-shell .fullstack-editor {
+  height: 420px;
+}
+:root .app-shell.workspace-shell .editor-status {
+  font-size: 9px;
+  padding: 7px 16px;
+  background: var(--sidebar);
+}
+:root .app-shell.workspace-shell .action-bar,
+:root .app-shell.workspace-shell .actions {
+  min-height: 62px;
+  padding: 10px 16px;
+  background: var(--sidebar);
+}
+:root .app-shell.workspace-shell .actions .primary,
+:root .app-shell.workspace-shell .primary-button {
+  font-weight: 600;
+}
+:root .app-shell.workspace-shell .panel-tabs,
+:root .app-shell.workspace-shell .output-header {
+  min-height: 46px;
+  background: var(--sidebar);
+  gap: 18px;
+  padding: 0 16px;
+}
+:root .app-shell.workspace-shell .panel-tabs > button,
+:root .app-shell.workspace-shell .output-header button {
+  font-size: 12px;
+  padding: 12px 0;
+  min-height: 46px;
+}
+:root .app-shell.workspace-shell .console-output {
+  min-height: 160px;
+}
+:root .app-shell.workspace-shell .output .console {
+  min-height: 160px;
+}
+:root .app-shell.workspace-shell .file-tabs {
+  background: var(--sidebar);
+  padding: 0 12px;
+  gap: 0;
+}
+:root .app-shell.workspace-shell .file-tabs button {
+  min-height: 42px;
+  background: transparent;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  padding: 10px 14px;
+}
+:root .app-shell.workspace-shell .file-tabs button[aria-selected='true'] {
+  color: var(--accent);
+  background: var(--panel);
+  border-bottom-color: var(--accent);
+}
+:root .app-shell.workspace-shell .commands {
+  min-height: 330px;
+}
+/* Focus changes layout only; the editor and its history stay mounted. */
+:root .app-shell.workspace-shell.focus-mode .practice-grid,
+:root .app-shell.workspace-shell.focus-mode .workspace {
+  grid-template-columns: minmax(0, 1fr);
+}
+:root .app-shell.workspace-shell.focus-mode .problem-panel,
+:root .app-shell.workspace-shell.focus-mode .workspace > .instructions {
+  display: none;
+}
+:root .app-shell.workspace-shell.focus-mode .editor-area,
+:root .app-shell.workspace-shell.focus-mode .editor,
+:root .app-shell.workspace-shell.focus-mode .fullstack-editor {
+  height: min(62dvh, 700px);
+  min-height: 340px;
+}
+/* Quizzes use the same quiet surface hierarchy. */
+:root .app-shell.workspace-shell pc-quiz {
+  max-width: 1080px;
+}
+:root .app-shell.workspace-shell .quiz-card {
+  padding: 30px;
+  border-radius: var(--radius-panel);
+}
+:root .app-shell.workspace-shell .setup-card {
+  border: 0;
+  background: transparent;
+  padding: 6px 0 30px;
+}
+:root .app-shell.workspace-shell .setup-card .quiz-header {
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+}
+:root .app-shell.workspace-shell .quiz-header h2 {
+  font-size: 26px;
+  font-weight: 650;
+}
+:root .app-shell.workspace-shell .history {
+  border: 0;
+  border-top: 1px solid var(--border);
+  padding: 26px 0;
+  background: transparent;
+}
+:root .app-shell.workspace-shell .history h2 {
+  font-size: 17px;
+}
+:root .app-shell.workspace-shell .history-row {
+  border: 0;
+  border-bottom: 1px solid var(--border);
+  border-radius: 0;
+  background: transparent;
+  padding: 16px 0;
+  margin: 0;
+}
+:root .app-shell.workspace-shell .history-row:hover {
+  background: var(--hover);
+}
+:root .app-shell.workspace-shell dialog {
+  border-radius: var(--radius-panel);
+}
+@media (max-width: 1200px) {
+  :root .app-shell.workspace-shell main {
+    padding: 22px;
+  }
+  :root .app-shell.workspace-shell .practice-grid,
+  :root .app-shell.workspace-shell .workspace {
+    grid-template-columns: minmax(250px, 0.9fr) minmax(0, 1.4fr);
+  }
+  :root .app-shell.workspace-shell .problem-content,
+  :root .app-shell.workspace-shell .instructions {
+    padding: 22px 20px;
+  }
+}
+@media (max-width: 1050px) {
+  :root .app-shell.workspace-shell .sidebar {
+    width: 68px;
+    padding: 24px 8px;
+  }
+  :root .app-shell.workspace-shell .brand {
+    font-size: 0;
+    margin: 0 0 28px;
+  }
+  :root .app-shell.workspace-shell .brand-slogan {
+    display: none;
+  }
+  :root .app-shell.workspace-shell .main-shell {
+    margin-left: 68px;
+    width: calc(100% - 68px);
+  }
+  :root .app-shell.workspace-shell .nav-item {
+    font-size: 0;
+    justify-content: center;
+    gap: 0;
+    padding: 10px;
+  }
+  :root .app-shell.workspace-shell .nav-item.active::before {
+    left: -8px;
+  }
+}
+@media (max-width: 850px) {
+  :root .app-shell.workspace-shell .practice-grid,
+  :root .app-shell.workspace-shell .workspace {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  :root .app-shell.workspace-shell .practice-grid > .problem-panel,
+  :root .app-shell.workspace-shell .workspace > .instructions {
+    border-right: 0;
+    border-bottom: 1px solid var(--border);
+  }
+  :root .app-shell.workspace-shell .topbar {
+    padding: 12px 22px;
+  }
+}
+@media (max-width: 540px) {
+  :root .app-shell.workspace-shell .sidebar {
+    width: 100%;
+    padding: 16px;
+    gap: 14px;
+  }
+  :root .app-shell.workspace-shell .brand {
+    font-size: 25px;
+    margin: 0;
+  }
+  :root .app-shell.workspace-shell .brand-slogan {
+    display: block;
+    margin: 0;
+    font-size: 10px;
+  }
+  :root .app-shell.workspace-shell .main-shell {
+    margin-left: 0;
+    width: 100%;
+  }
+  :root .app-shell.workspace-shell .nav-item {
+    min-height: 38px;
+    margin: 0;
+    padding: 8px;
+  }
+  :root .app-shell.workspace-shell .nav-item.active::before {
+    display: none;
+  }
+  :root .app-shell.workspace-shell .topbar {
+    padding: 10px 16px;
+    min-height: 54px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  :root .app-shell.workspace-shell .breadcrumb {
+    gap: 6px;
+  }
+  :root .app-shell.workspace-shell .breadcrumb h1 {
+    font-size: 12px;
+  }
+  :root .app-shell.workspace-shell .topbar-actions {
+    gap: 3px;
+  }
+  :root .app-shell.workspace-shell .topbar-actions button {
+    padding: 8px;
+    min-height: 36px;
+  }
+  :root .app-shell.workspace-shell .topbar-actions button > span {
+    display: none;
+  }
+  :root .app-shell.workspace-shell main {
+    padding: 18px 12px 24px;
+  }
+  :root .app-shell.workspace-shell .difficulty-grid,
+  :root .app-shell.workspace-shell .levels {
+    width: 100%;
+    gap: 2px;
+    padding: 3px;
+  }
+  :root .app-shell.workspace-shell .difficulty-card,
+  :root .app-shell.workspace-shell .levels button {
+    white-space: normal;
+    padding: 8px 4px;
+    font-size: 11px;
+    line-height: 1.5;
+    min-height: 48px;
+  }
+  :root .app-shell.workspace-shell .catalog-controls {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+  :root .app-shell.workspace-shell .selectors {
+    gap: 12px;
+  }
+  :root .app-shell.workspace-shell .selectors > button {
+    min-height: 36px;
+  }
+  :root .app-shell.workspace-shell .problem-content,
+  :root .app-shell.workspace-shell .instructions {
+    padding: 22px 18px;
+  }
+  :root .app-shell.workspace-shell .challenge-title h3,
+  :root .app-shell.workspace-shell .instructions h2 {
+    font-size: 23px;
+  }
+  :root .app-shell.workspace-shell .panel-tabs,
+  :root .app-shell.workspace-shell .output-header {
+    gap: 14px;
+    padding: 0 12px;
+  }
+  :root .app-shell.workspace-shell .panel-tabs > button,
+  :root .app-shell.workspace-shell .output-header button {
+    font-size: 11px;
+  }
+  :root .app-shell.workspace-shell .editor-area,
+  :root .app-shell.workspace-shell .editor,
+  :root .app-shell.workspace-shell .fullstack-editor {
+    height: 360px;
+  }
+  :root .app-shell.workspace-shell .editor-toolbar,
+  :root .app-shell.workspace-shell .toolbar {
+    padding: 8px 12px;
+  }
+  :root .app-shell.workspace-shell .quiz-card {
+    padding: 22px 18px;
+  }
+  :root .app-shell.workspace-shell .setup-card,
+  :root .app-shell.workspace-shell .history {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}

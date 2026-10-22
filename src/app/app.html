@@ -1,0 +1,866 @@
+<a class="skip-link" href="#main">Skip to practice</a>
+<div class="app-shell workspace-shell" [class.focus-mode]="focusMode() && section() !== 'quizzes'">
+  <aside class="sidebar" aria-label="Workspace navigation">
+    <a class="brand" href="#main" aria-label="ProCode home"
+      ><span class="brand-symbol" aria-hidden="true"><pc-logo /></span
+      ><span class="brand-name" aria-hidden="true">roCode</span></a
+    >
+    <p class="brand-slogan">Practice makes pro</p>
+    <div class="nav-label">Practice library</div>
+    <nav>
+      <button
+        class="nav-item"
+        [class.active]="section() === 'algorithms'"
+        aria-label="Algorithms"
+        [attr.aria-current]="section() === 'algorithms' ? 'page' : null"
+        [disabled]="busy()"
+        (click)="setSection('algorithms')"
+      >
+        <pc-icon name="code" />Algorithms<span class="nav-count">{{ exerciseCount }}</span>
+      </button>
+      <button
+        class="nav-item"
+        [class.active]="section() === 'data-structures'"
+        aria-label="Data structures"
+        [attr.aria-current]="section() === 'data-structures' ? 'page' : null"
+        [disabled]="busy()"
+        (click)="setSection('data-structures')"
+      >
+        <pc-icon name="layers" />Data structures<span class="nav-count">{{ structureCount }}</span>
+      </button>
+      <button
+        class="nav-item"
+        [class.active]="section() === 'clean'"
+        aria-label="Clean code"
+        [attr.aria-current]="section() === 'clean' ? 'page' : null"
+        [disabled]="busy()"
+        (click)="setSection('clean')"
+      >
+        <pc-icon name="refactor" />Clean code<span class="nav-count">{{
+          cleanExerciseInfo.length
+        }}</span>
+      </button>
+      <button
+        class="nav-item"
+        [class.active]="section() === 'angular'"
+        aria-label="Angular"
+        [attr.aria-current]="section() === 'angular' ? 'page' : null"
+        [disabled]="busy()"
+        (click)="setSection('angular')"
+      >
+        <pc-icon name="angular" />Angular<span class="nav-count">{{
+          angularExerciseInfo.length
+        }}</span>
+      </button>
+      <button
+        class="nav-item"
+        [class.active]="section() === 'web'"
+        aria-label="HTML & CSS"
+        [attr.aria-current]="section() === 'web' ? 'page' : null"
+        [disabled]="busy()"
+        (click)="setSection('web')"
+      >
+        <pc-icon name="monitor" />HTML &amp; CSS<span class="nav-count">{{
+          webExerciseInfo.length
+        }}</span>
+      </button>
+      <button
+        class="nav-item"
+        [class.active]="section() === 'fullstack'"
+        aria-label="Full stack"
+        [attr.aria-current]="section() === 'fullstack' ? 'page' : null"
+        [disabled]="busy()"
+        (click)="setSection('fullstack')"
+      >
+        <pc-icon name="layers" />Full stack<span class="nav-count">{{
+          fullstackExerciseInfo.length
+        }}</span>
+      </button>
+      <button
+        class="nav-item"
+        [class.active]="section() === 'firebase'"
+        aria-label="Firebase"
+        [attr.aria-current]="section() === 'firebase' ? 'page' : null"
+        [disabled]="busy()"
+        (click)="setSection('firebase')"
+      >
+        <pc-icon name="flame" />Firebase<span class="nav-count">{{
+          firebaseExerciseInfo.length
+        }}</span>
+      </button>
+      <button
+        class="nav-item"
+        [class.active]="section() === 'git'"
+        aria-label="Git workflows"
+        [attr.aria-current]="section() === 'git' ? 'page' : null"
+        [disabled]="busy()"
+        (click)="setSection('git')"
+      >
+        <pc-icon name="branch" />Git workflows<span class="nav-count">{{
+          gitExerciseInfo.length
+        }}</span>
+      </button>
+      <button
+        class="nav-item"
+        [class.active]="section() === 'quizzes'"
+        aria-label="Knowledge quizzes"
+        [attr.aria-current]="section() === 'quizzes' ? 'page' : null"
+        [disabled]="busy()"
+        (click)="setSection('quizzes')"
+      >
+        <pc-icon name="book" />Knowledge quizzes
+      </button>
+      <button class="nav-item" aria-label="My progress" (click)="openDialog('progress')">
+        <pc-icon name="trophy" />My progress
+      </button>
+    </nav>
+    <div class="sidebar-bottom">
+      <div class="progress-card">
+        <span class="small-label">PROGRESS</span>
+        <div
+          class="progress-track"
+          role="progressbar"
+          aria-label="Completed challenges"
+          [attr.aria-valuenow]="completionCount()"
+          aria-valuemin="0"
+          [attr.aria-valuemax]="challengeCount"
+        >
+          <div [style.width.%]="(completionCount() / challengeCount) * 100"></div>
+        </div>
+        <span>{{ completionCount() }} of {{ challengeCount }} challenges completed</span>
+      </div>
+    </div>
+  </aside>
+  <div class="main-shell">
+    <header class="topbar">
+      <div class="breadcrumb">
+        Workspace<pc-icon name="chevron" />
+        <h1>
+          {{
+            section() === 'clean'
+              ? 'Clean code'
+              : section() === 'git'
+                ? 'Git workflows'
+                : section() === 'fullstack'
+                  ? 'Full stack'
+                  : section() === 'firebase'
+                    ? 'Firebase'
+                    : section() === 'angular'
+                      ? 'Angular'
+                      : section() === 'web'
+                        ? 'HTML & CSS'
+                        : section() === 'quizzes'
+                          ? 'Knowledge quizzes'
+                          : section() === 'data-structures'
+                            ? 'Data structures'
+                            : 'Algorithms'
+          }}
+        </h1>
+      </div>
+      <div class="topbar-actions">
+        @if (section() !== 'quizzes') {
+          <button
+            class="outline-button focus-control"
+            aria-label="Focus mode"
+            [attr.aria-pressed]="focusMode()"
+            (click)="focusMode.set(!focusMode())"
+            [title]="focusMode() ? 'Show challenge instructions' : 'Expand the code workspace'"
+          >
+            <pc-icon [name]="focusMode() ? 'restore-view' : 'focus'" /><span>{{
+              focusMode() ? 'Exit focus' : 'Focus'
+            }}</span>
+          </button>
+        }
+        <button
+          class="appearance-trigger outline-button"
+          aria-label="Appearance"
+          (click)="openDialog('appearance')"
+        >
+          <pc-icon name="palette" /><span>Appearance</span>
+        </button>
+      </div>
+    </header>
+    <main id="main" tabindex="-1">
+      @if (storageWarning()) {
+        <div class="storage-alert" role="alert">
+          <pc-icon name="info" /><span>{{ storageWarning() }}</span
+          ><button (click)="exportWorkspace()">Export work</button>
+        </div>
+      }
+      @defer (when section() === 'quizzes') {
+        <pc-quiz [hidden]="section() !== 'quizzes'" />
+      }
+      @defer (when section() === 'web') {
+        <pc-web-practice [hidden]="section() !== 'web'" />
+      }
+      @defer (when section() === 'clean') {
+        <pc-clean-practice [hidden]="section() !== 'clean'" [active]="section() === 'clean'" />
+      }
+      @defer (when section() === 'git') {
+        <pc-git-practice [hidden]="section() !== 'git'" />
+      }
+      @defer (when section() === 'fullstack') {
+        <pc-fullstack-practice
+          [hidden]="section() !== 'fullstack'"
+          [active]="section() === 'fullstack'"
+        />
+      }
+      @defer (when section() === 'firebase') {
+        <pc-firebase-practice [hidden]="section() !== 'firebase'" />
+      }
+      @defer (when section() === 'angular') {
+        <pc-angular-practice
+          [hidden]="section() !== 'angular'"
+          [active]="section() === 'angular'"
+        />
+      }
+      <div
+        [hidden]="
+          section() === 'quizzes' ||
+          section() === 'web' ||
+          section() === 'angular' ||
+          section() === 'firebase' ||
+          section() === 'fullstack' ||
+          section() === 'git' ||
+          section() === 'clean'
+        "
+      >
+        <section class="difficulty-section" aria-labelledby="difficulty-heading">
+          <div class="section-label">
+            <h2 id="difficulty-heading">Difficulty</h2>
+          </div>
+          <div class="difficulty-grid">
+            @for (level of levels; track level.id) {
+              <button
+                class="difficulty-card"
+                [class.selected]="difficulty() === level.id"
+                [attr.aria-pressed]="difficulty() === level.id"
+                [disabled]="busy()"
+                (click)="setDifficulty(level.id)"
+              >
+                <span class="level-bars" aria-hidden="true"
+                  ><i></i><i [class.lit]="level.bars >= 2"></i
+                  ><i [class.lit]="level.bars >= 3"></i></span
+                ><span class="level-copy"
+                  ><strong>{{ level.name }}</strong></span
+                ><span class="radio-indicator">
+                  @if (difficulty() === level.id) {
+                    <span></span>
+                  }
+                </span>
+              </button>
+            }
+          </div>
+        </section>
+        <div class="practice-meta">
+          <div>
+            <pc-icon name="code" />
+            <h2>
+              {{
+                workspace().practiceArea === 'data-structures'
+                  ? 'Data structure practice'
+                  : 'Algorithm practice'
+              }}
+            </h2>
+          </div>
+          <span
+            ><span class="status-dot"></span
+            >{{ storageWarning() ? 'Session active' : 'Saved locally' }}</span
+          >
+        </div>
+        <div class="catalog-controls">
+          <div class="catalog-field">
+            <label for="category">Category</label>
+            <select
+              id="category"
+              [ngModel]="category()"
+              [disabled]="busy()"
+              (change)="setCategory($event)"
+            >
+              <option value="all">All categories</option>
+              @for (item of categories(); track item) {
+                <option [value]="item">{{ item }}</option>
+              }
+            </select>
+          </div>
+          <div class="catalog-field">
+            <label for="algorithm">{{
+              workspace().practiceArea === 'data-structures' ? 'Exercise' : 'Algorithm'
+            }}</label>
+            <select
+              id="algorithm"
+              [ngModel]="exercise().id"
+              [disabled]="busy()"
+              (change)="setExercise($event)"
+            >
+              @for (item of filteredExercises(); track item.id) {
+                <option [value]="item.id">{{ item.title }}</option>
+              }
+            </select>
+          </div>
+        </div>
+        <div class="practice-grid">
+          <section class="problem-panel panel" aria-label="Challenge instructions">
+            <div
+              class="panel-tabs"
+              role="tablist"
+              (keydown)="navigateTabs($event)"
+              aria-label="Challenge information"
+            >
+              <button
+                role="tab"
+                id="problem-tab"
+                aria-controls="problem-content"
+                [attr.aria-selected]="tab() === 'problem'"
+                [attr.tabindex]="tab() === 'problem' ? 0 : -1"
+                [class.selected]="tab() === 'problem'"
+                (click)="tab.set('problem')"
+              >
+                <pc-icon name="book" />Problem</button
+              ><button
+                role="tab"
+                id="hints-tab"
+                aria-controls="hints-content"
+                [attr.aria-selected]="tab() === 'hints'"
+                [attr.tabindex]="tab() === 'hints' ? 0 : -1"
+                [class.selected]="tab() === 'hints'"
+                (click)="tab.set('hints')"
+              >
+                <pc-icon name="bulb" />Hints<span class="tab-count">{{
+                  exercise().hints.length
+                }}</span>
+              </button>
+            </div>
+            @if (tab() === 'problem') {
+              <div
+                class="problem-content"
+                id="problem-content"
+                role="tabpanel"
+                aria-labelledby="problem-tab"
+              >
+                <div class="challenge-title">
+                  <h3>{{ exercise().title }}</h3>
+                  @if (completed()) {
+                    <span class="completed-tag" aria-label="Previously completed"
+                      ><pc-icon name="check"
+                    /></span>
+                  }
+                </div>
+                <div class="challenge-tags">
+                  <span class="difficulty-tag" [class.senior]="difficulty() === 'senior'">{{
+                    difficulty() === 'junior'
+                      ? 'Foundations'
+                      : difficulty() === 'skilled'
+                        ? 'Intermediate'
+                        : 'Advanced'
+                  }}</span
+                  ><span>{{ exercise().category }}</span>
+                </div>
+                <div class="time-estimate"><pc-icon name="clock" />{{ exercise().minutes }}</div>
+                <p class="description">{{ exercise().description }}</p>
+                <h4>Requirements</h4>
+                <ul class="requirements">
+                  @for (requirement of exercise().requirements; track requirement) {
+                    <li>{{ requirement }}</li>
+                  }
+                </ul>
+                <h4 class="examples-heading">Examples</h4>
+                @for (example of exercise().examples; track example.name; let i = $index) {
+                  <div class="example">
+                    <div class="example-title">
+                      Example {{ i + 1 }}<span>{{ example.name }}</span>
+                    </div>
+                    <div class="example-code">
+                      <span>Input</span><code>{{ format(example.input) }}</code
+                      ><span>Output</span><code>{{ exampleExpected(example) }}</code>
+                    </div>
+                  </div>
+                }
+              </div>
+            } @else {
+              <div
+                class="problem-content hints-content"
+                id="hints-content"
+                role="tabpanel"
+                aria-labelledby="hints-tab"
+              >
+                @for (
+                  hint of exercise().hints.slice(0, revealedHints());
+                  track hint;
+                  let i = $index
+                ) {
+                  <div class="hint-card">
+                    <span>Hint {{ i + 1 }}</span>
+                    <p>{{ hint }}</p>
+                  </div>
+                }
+                <button
+                  class="outline-button"
+                  [disabled]="revealedHints() === exercise().hints.length"
+                  (click)="showHint()"
+                >
+                  <pc-icon name="bulb" />{{
+                    revealedHints() === exercise().hints.length
+                      ? 'All hints revealed'
+                      : revealedHints() === 0
+                        ? 'Reveal first hint'
+                        : 'Reveal next hint'
+                  }}
+                </button>
+              </div>
+            }
+          </section>
+          <div class="coding-column">
+            <section class="editor-panel panel" aria-label="Code workspace">
+              <div class="editor-toolbar">
+                <div class="file-name">
+                  <span class="file-icon">{{ language() === 'javascript' ? 'JS' : 'PY' }}</span
+                  >solution.{{ language() === 'javascript' ? 'js' : 'py' }}
+                </div>
+                <div class="editor-tools">
+                  <label class="sr-only" for="language">Practice language</label
+                  ><select
+                    id="language"
+                    [value]="language()"
+                    [disabled]="busy()"
+                    (change)="setLanguage($event)"
+                  >
+                    <option value="javascript">JavaScript</option>
+                    <option value="python">Python</option></select
+                  ><span class="toolbar-divider"></span
+                  ><button
+                    class="icon-button"
+                    title="Reset starter code"
+                    aria-label="Reset starter code"
+                    [disabled]="busy()"
+                    (click)="openDialog('reset')"
+                  >
+                    <pc-icon name="reset" />
+                  </button>
+                </div>
+              </div>
+              <span class="sr-only" id="editor-keyboard-help"
+                >Tab indents code. Press Escape to leave the editor and focus Run. Control or
+                Command plus Enter runs the examples.</span
+              >
+              <div class="editor-area">
+                <pc-editor
+                  [code]="code()"
+                  [dark]="appearance.preferences().mode !== 'light'"
+                  [contextKey]="currentKey()"
+                  [language]="language()"
+                  [disabled]="busy()"
+                  (codeChange)="updateCode($event)"
+                  (runCode)="execute('run')"
+                />
+              </div>
+              <div class="editor-status">
+                <span
+                  ><span class="status-dot"></span
+                  >{{ language() === 'javascript' ? 'JavaScript' : 'Python 3.14'
+                  }}<span class="editor-status-divider">|</span>UTF-8</span
+                ><span>Ctrl / ⌘ + Enter to run</span>
+              </div>
+              <div class="action-bar">
+                <div class="run-actions">
+                  <button
+                    class="outline-button run-button"
+                    [disabled]="busy()"
+                    (click)="execute('run')"
+                  >
+                    <pc-icon name="play" />Run
+                  </button>
+                  <button class="primary-button" [disabled]="busy()" (click)="execute('finish')">
+                    Finish<pc-icon name="arrow" />
+                  </button>
+                </div>
+              </div>
+            </section>
+            <section
+              class="results-panel panel"
+              aria-label="Execution results"
+              [attr.aria-busy]="busy()"
+            >
+              <div class="results-toolbar">
+                <div
+                  class="panel-tabs"
+                  role="tablist"
+                  (keydown)="navigateTabs($event)"
+                  aria-label="Execution output"
+                >
+                  <button
+                    id="console-tab"
+                    role="tab"
+                    aria-controls="console-content"
+                    [attr.aria-selected]="resultsTab() === 'console'"
+                    [attr.tabindex]="resultsTab() === 'console' ? 0 : -1"
+                    [class.selected]="resultsTab() === 'console'"
+                    (click)="resultsTab.set('console')"
+                  >
+                    <pc-icon name="terminal" />Console
+                    @if (logs().length + consoleErrors().length) {
+                      <span class="tab-count">{{ logs().length + consoleErrors().length }}</span>
+                    }
+                  </button>
+                  <button
+                    id="tests-tab"
+                    role="tab"
+                    aria-controls="tests-content"
+                    [attr.aria-selected]="resultsTab() === 'tests'"
+                    [attr.tabindex]="resultsTab() === 'tests' ? 0 : -1"
+                    [class.selected]="resultsTab() === 'tests'"
+                    (click)="resultsTab.set('tests')"
+                  >
+                    <pc-icon name="check" />Test results
+                    @if (results().length) {
+                      <span class="tab-count">{{ results().length }}</span>
+                    }
+                  </button>
+                </div>
+              </div>
+              <div class="sr-only" aria-live="polite">
+                <span>{{
+                  busy() ? '' : error() || (results().length ? resultSummary() : '')
+                }}</span>
+                {{ busy() ? '' : methodResult()?.message }}
+              </div>
+              @if (resultsTab() === 'console') {
+                <div
+                  class="console-output"
+                  tabindex="0"
+                  id="console-content"
+                  role="tabpanel"
+                  aria-labelledby="console-tab"
+                >
+                  @for (line of logs(); track $index) {
+                    <pre>{{ line }}</pre>
+                  }
+                  @for (diagnostic of consoleErrors(); track $index) {
+                    <div class="console-error">
+                      @if (diagnostic.checks > 1) {
+                        <span class="error-count"
+                          >{{ diagnostic.checks }} checks raised this error</span
+                        >
+                      }
+                      <pre>{{ diagnostic.message }}</pre>
+                    </div>
+                  }
+                  @if (!logs().length && !consoleErrors().length) {
+                    <p>No console output.</p>
+                  }
+                </div>
+              } @else {
+                <div id="tests-content" role="tabpanel" aria-labelledby="tests-tab">
+                  @if (error()) {
+                    <div class="execution-error">
+                      <pc-icon name="info" />
+                      <div>
+                        <strong>Execution error</strong>
+                        <pre tabindex="0">{{ error() }}</pre>
+                      </div>
+                    </div>
+                  } @else if (results().length) {
+                    <div class="result-summary" [class.success]="allPassed()">
+                      <span class="result-symbol"
+                        ><pc-icon [name]="allPassed() ? 'check' : 'info'"
+                      /></span>
+                      <div>
+                        <strong>{{
+                          allPassed()
+                            ? mode() === 'finish'
+                              ? 'Challenge complete.'
+                              : 'Examples passed.'
+                            : outputPassed()
+                              ? 'Output correct. Method needs attention.'
+                              : 'Some checks failed.'
+                        }}</strong>
+                        <p>
+                          {{ resultSummary()
+                          }}{{
+                            allPassed() && mode() === 'run'
+                              ? '. Finish checks additional edge cases.'
+                              : allPassed()
+                                ? '. Saved locally.'
+                                : ''
+                          }}
+                        </p>
+                      </div>
+                    </div>
+                    @if (methodResult(); as method) {
+                      <div
+                        class="method-result"
+                        [class.verified]="method.status === 'verified'"
+                        role="status"
+                      >
+                        <pc-icon [name]="method.status === 'verified' ? 'check' : 'info'" />
+                        <div>
+                          <strong>{{
+                            method.status === 'verified'
+                              ? 'Method verified'
+                              : method.status === 'different'
+                                ? 'Different method detected'
+                                : 'Method not verified'
+                          }}</strong>
+                          <p>{{ method.message }}</p>
+                          @if (method.status !== 'verified') {
+                            <p>Completion withheld. Correct output checks remain passed.</p>
+                          }
+                        </div>
+                      </div>
+                    }
+                    <div class="test-list">
+                      @for (result of results(); track $index; let i = $index) {
+                        <div class="test-row" [class.failed]="!result.pass">
+                          <button
+                            [attr.aria-expanded]="expandedResult() === i"
+                            (click)="expandedResult.set(expandedResult() === i ? -1 : i)"
+                          >
+                            <pc-icon [name]="result.pass ? 'check' : 'close'" /><span>{{
+                              result.check.name
+                            }}</span
+                            ><small>{{ result.extra ? 'Additional' : 'Example' }}</small
+                            ><pc-icon name="chevron" />
+                          </button>
+                          @if (expandedResult() === i) {
+                            <div class="test-detail">
+                              <div>
+                                <span>Input</span><code>{{ format(result.check.input) }}</code>
+                              </div>
+                              <div>
+                                <span>Expected</span
+                                ><code>{{ format(result.check.expected) }}</code>
+                              </div>
+                              <div>
+                                <span>Your result</span
+                                ><code>{{ result.error || format(result.actual) }}</code>
+                              </div>
+                              @if (!result.pass) {
+                                <p><pc-icon name="bulb" />{{ result.check.hint }}</p>
+                              }
+                            </div>
+                          }
+                        </div>
+                      }
+                    </div>
+                    @if (allPassed() && mode() === 'finish') {
+                      <div class="learning-note">
+                        <strong>Explanation</strong>
+                        <p>{{ exercise().explanation }}</p>
+                      </div>
+                    }
+                  } @else {
+                    <div class="empty-results">
+                      <strong>No results yet.</strong>
+                      <p>Run checks examples. Finish checks all cases.</p>
+                    </div>
+                  }
+                </div>
+              }
+            </section>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+<dialog
+  #modal
+  [class.appearance-dialog]="dialogType() === 'appearance'"
+  (click)="backdrop($event)"
+  aria-labelledby="dialog-title"
+>
+  <div class="dialog-header">
+    <button class="icon-button" aria-label="Close dialog" (click)="closeDialog()">
+      <pc-icon name="close" />
+    </button>
+  </div>
+  @if (dialogType() === 'appearance') {
+    <h2 id="dialog-title">Appearance</h2>
+    <section class="appearance-section" aria-labelledby="mode-heading">
+      <h3 id="mode-heading">Display mode</h3>
+      <div class="mode-grid">
+        @for (mode of appearance.modes; track mode.id) {
+          <button
+            class="mode-choice"
+            [class.chosen]="appearance.preferences().mode === mode.id"
+            [attr.aria-pressed]="appearance.preferences().mode === mode.id"
+            (click)="appearance.setMode(mode.id)"
+          >
+            <span class="mode-icon"><pc-icon [name]="mode.icon" /></span>
+            <strong>{{ mode.name }}</strong>
+            @if (appearance.preferences().mode === mode.id) {
+              <pc-icon class="choice-check" name="check" />
+            }
+          </button>
+        }
+      </div>
+    </section>
+    <section class="appearance-section" aria-labelledby="palette-heading">
+      <div class="appearance-section-heading">
+        <h3 id="palette-heading">Theme</h3>
+      </div>
+      <div class="theme-grid">
+        @for (theme of appearance.themes; track theme.id) {
+          <button
+            class="theme-choice"
+            [class.chosen]="appearance.preferences().theme === theme.id"
+            [title]="theme.source"
+            [attr.aria-label]="theme.name"
+            [attr.aria-pressed]="appearance.preferences().theme === theme.id"
+            (click)="appearance.setTheme(theme.id)"
+          >
+            <span class="theme-swatch" [attr.data-theme]="theme.id" aria-hidden="true"
+              ><span class="swatch-sidebar"><i></i><i></i><i></i></span
+              ><span class="swatch-workspace"
+                ><span></span><span class="swatch-editor"><i></i><i></i><i></i></span></span
+            ></span>
+            <span class="theme-choice-label"
+              ><strong>{{ theme.name }}</strong>
+              @if (appearance.preferences().theme === theme.id) {
+                <pc-icon name="check" />
+              }
+            </span>
+          </button>
+        }
+      </div>
+    </section>
+    <div class="appearance-footer">
+      <span aria-live="polite">{{ appearance.warning() || 'Saved locally' }}</span
+      ><button class="primary-button" (click)="closeDialog()">Done<pc-icon name="check" /></button>
+    </div>
+  }
+  @if (dialogType() === 'progress') {
+    <h2 id="dialog-title">My progress</h2>
+    <p class="dialog-intro">
+      {{ completionCount() }} of {{ challengeCount }} challenges completed.
+    </p>
+    @if (completionCount()) {
+      <div class="completion-list">
+        @for (completion of workspace().completions; track completion.key) {
+          <div>
+            <pc-icon name="check" /><span
+              ><strong>{{ completion.title }}</strong
+              ><small
+                >{{ completion.language === 'javascript' ? 'JavaScript' : 'Python' }} ·
+                {{ completion.completedAt | date: 'mediumDate' }}</small
+              ></span
+            >
+          </div>
+        }
+        @for (completion of web.state().completions; track completion.key) {
+          @for (info of webExerciseInfo; track info.id) {
+            @if (webKey(info) === completion.key) {
+              <div>
+                <pc-icon name="check" /><span
+                  ><strong>{{ info.title }}</strong
+                  ><small
+                    >{{ info.topic.toUpperCase() }} ·
+                    {{ completion.completedAt | date: 'mediumDate' }}</small
+                  ></span
+                >
+              </div>
+            }
+          }
+        }
+        @for (completion of angular.state().completions; track completion.key) {
+          @for (info of angularExerciseInfo; track info.id) {
+            @if (angularKey(info) === completion.key) {
+              <div>
+                <pc-icon name="check" /><span
+                  ><strong>{{ info.title }}</strong
+                  ><small>Angular · {{ completion.completedAt | date: 'mediumDate' }}</small></span
+                >
+              </div>
+            }
+          }
+        }
+        @for (completion of firebase.state().completions; track completion.key) {
+          @for (info of firebaseExerciseInfo; track info.id) {
+            @if (firebaseKey(info) === completion.key) {
+              <div>
+                <pc-icon name="check" /><span
+                  ><strong>{{ info.title }}</strong
+                  ><small>Firebase · {{ completion.completedAt | date: 'mediumDate' }}</small></span
+                >
+              </div>
+            }
+          }
+        }
+        @for (completion of fullstack.state().completions; track completion.key) {
+          @for (info of fullstackExerciseInfo; track info.id) {
+            @if (fullstackKey(info) === completion.key) {
+              <div>
+                <pc-icon name="check" /><span
+                  ><strong>{{ info.title }}</strong
+                  ><small
+                    >Full stack · {{ completion.completedAt | date: 'mediumDate' }}</small
+                  ></span
+                >
+              </div>
+            }
+          }
+        }
+        @for (completion of cleanCompletions(); track completion.key) {
+          <div>
+            <pc-icon name="check" /><span
+              ><strong>{{ completion.title }}</strong
+              ><small
+                >Clean code · {{ completion.language }} ·
+                {{ completion.completedAt | date: 'mediumDate' }}</small
+              ></span
+            >
+          </div>
+        }
+        @for (completion of git.state().completions; track completion.key) {
+          @for (info of gitExerciseInfo; track info.id) {
+            @if (gitKey(info) === completion.key) {
+              <div>
+                <pc-icon name="check" /><span
+                  ><strong>{{ info.title }}</strong
+                  ><small>Git · {{ completion.completedAt | date: 'mediumDate' }}</small></span
+                >
+              </div>
+            }
+          }
+        }
+      </div>
+    } @else {
+      <p class="progress-empty">No completed challenges.</p>
+    }
+    <button class="outline-button" (click)="exportWorkspace()">
+      <pc-icon name="download" />Export drafts & progress
+    </button>
+    <button class="outline-button" (click)="web.export()">
+      <pc-icon name="download" />Export HTML &amp; CSS work
+    </button>
+    <button class="outline-button" (click)="angular.export()">
+      <pc-icon name="download" />Export Angular work
+    </button>
+    <button class="outline-button" (click)="firebase.export()">
+      <pc-icon name="download" />Export Firebase work
+    </button>
+    <button class="outline-button" (click)="fullstack.export()">
+      <pc-icon name="download" />Export Full-stack work
+    </button>
+    <button class="outline-button" (click)="git.export()">
+      <pc-icon name="download" />Export Git work
+    </button>
+    <button class="outline-button" (click)="clean.export()">
+      <pc-icon name="download" />Export Clean code work
+    </button>
+    <p class="dialog-footnote">JSON export only. Import is not supported.</p>
+  }
+  @if (dialogType() === 'reset') {
+    <h2 id="dialog-title">Reset code?</h2>
+    <p class="dialog-intro">
+      Replace your {{ language() === 'javascript' ? 'JavaScript' : 'Python' }} draft for
+      {{ exercise().title }} with starter code?
+    </p>
+    <div class="dialog-actions">
+      <button class="outline-button" (click)="closeDialog()">Keep my code</button
+      ><button class="primary-button" (click)="resetDraft()">
+        Reset code<pc-icon name="reset" />
+      </button>
+    </div>
+  }
+</dialog>

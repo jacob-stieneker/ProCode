@@ -1,0 +1,37 @@
+.file-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 8px;
+  border-bottom: 1px solid var(--border);
+}
+.file-tabs button {
+  font-size: 12px;
+  padding: 8px;
+  min-height: 36px;
+}
+.file-tabs [aria-selected='true'] {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+.fullstack-editor {
+  height: 420px;
+}
+.fullstack-preview {
+  min-height: 430px;
+  background: #fff;
+}
+.preview-tools {
+  justify-content: flex-start;
+}
+@media (max-width: 500px) {
+  .fullstack-editor {
+    height: 360px;
+  }
+  .file-tabs {
+    gap: 4px;
+  }
+  .file-tabs button {
+    padding: 6px;
+  }
+}

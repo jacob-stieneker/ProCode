@@ -1,0 +1,167 @@
+@if (warning()) {
+  <p class="notice" role="alert">{{ warning() }}</p>
+}
+@if (setup()) {
+  <section class="quiz-card setup-card" aria-labelledby="quiz-heading">
+    <div class="quiz-header">
+      <h2 id="quiz-heading" #heading tabindex="-1">Knowledge quizzes</h2>
+      <span>{{ bankSize }} questions</span>
+    </div>
+    <div class="settings">
+      <div>
+        <label for="quiz-topic">Topic</label
+        ><select id="quiz-topic" [(ngModel)]="topic">
+          <option value="all">All topics</option>
+          @for (t of topics; track t.id) {
+            <option [value]="t.id">{{ t.name }}</option>
+          }
+        </select>
+      </div>
+      <div>
+        <label for="quiz-count">Questions</label
+        ><select id="quiz-count" [(ngModel)]="count">
+          <option [ngValue]="10">10 questions</option>
+          <option [ngValue]="20">20 questions</option>
+        </select>
+      </div>
+    </div>
+    <div class="quiz-actions">
+      <span>{{ available() }} available</span
+      ><button class="primary" (click)="start()">Start quiz</button>
+    </div>
+    @if (state().active && !state().active!.completedAt) {
+      <div class="resume">
+        <span
+          >{{ label(state().active!.topic) }}: {{ answered(state().active!) }} of
+          {{ state().active!.count }} answered</span
+        ><button (click)="resume()">Resume quiz</button>
+      </div>
+    }
+  </section>
+  <section class="quiz-card history" aria-labelledby="history-heading">
+    <div class="quiz-header">
+      <h2 id="history-heading">Recent quizzes</h2>
+      <button (click)="export()">Export quizzes</button>
+    </div>
+    @for (attempt of state().history; track attempt.id) {
+      <button
+        class="history-row"
+        (click)="openReview(attempt)"
+        [attr.aria-label]="
+          'Review ' + label(attempt.topic) + ', score ' + score(attempt) + ' of ' + attempt.count
+        "
+      >
+        <span
+          >{{ label(attempt.topic) }}<small>{{ attempt.completedAt | date: 'medium' }}</small></span
+        ><strong>{{ score(attempt) }} / {{ attempt.count }}</strong>
+      </button>
+    } @empty {
+      <p class="muted">No completed quizzes.</p>
+    }
+  </section>
+} @else if (shown(); as attempt) {
+  <div class="quiz-header page-header">
+    <span>{{ label(attempt.topic) }} · {{ attempt.count }} questions</span
+    ><button (click)="topicsScreen()">Topics & history</button>
+  </div>
+  @if (attempt.completedAt) {
+    <section class="quiz-card score-card" aria-labelledby="score-heading">
+      <h2 id="score-heading" #heading tabindex="-1">Quiz complete</h2>
+      <p class="score">{{ score(attempt) }} / {{ attempt.count }}</p>
+      <p>{{ ((score(attempt) / attempt.count) * 100).toFixed(0) }}% correct</p>
+      <button class="primary" (click)="topicsScreen()">Choose another quiz</button>
+    </section>
+    <section class="review" aria-label="Answer review">
+      @for (entry of attempt.items; track entry.id; let i = $index) {
+        @let q = questionById.get(entry.id)!;
+        <details class="quiz-card review-item">
+          <summary>
+            <span>Question {{ i + 1 }}: {{ q.prompt }}</span
+            ><strong [class.incorrect]="entry.answer !== q.correct">{{
+              entry.answer === q.correct ? 'Correct' : 'Incorrect'
+            }}</strong>
+          </summary>
+          <ul class="review-choices">
+            @for (choice of entry.order; track choice) {
+              <li
+                [class.correct]="choice === q.correct"
+                [class.incorrect]="choice === entry.answer && choice !== q.correct"
+              >
+                {{ q.choices[choice] }}
+                @if (choice === q.correct) {
+                  <strong>Correct answer</strong>
+                }
+                @if (choice === entry.answer) {
+                  <strong>Your answer</strong>
+                }
+              </li>
+            }
+          </ul>
+          <p class="explanation">{{ q.explanation }}</p>
+          <a [href]="q.source" target="_blank" rel="noopener noreferrer"
+            >Read reference<span class="sr-only">
+              for question {{ i + 1 }} (opens in a new tab)</span
+            ></a
+          >
+        </details>
+      }
+    </section>
+  } @else if (question(); as q) {
+    <section class="quiz-card question-card" aria-labelledby="question-heading">
+      <div class="quiz-header">
+        <span>Question {{ attempt.current + 1 }} of {{ attempt.count }}</span
+        ><span aria-live="polite">{{ answered(attempt) }} answered</span>
+      </div>
+      <progress
+        [value]="answered(attempt)"
+        [max]="attempt.count"
+        aria-label="Answered questions"
+      ></progress>
+      <h2 #heading id="question-heading" tabindex="-1">{{ q.prompt }}</h2>
+      <fieldset aria-labelledby="question-heading">
+        <legend class="sr-only">Choose one answer</legend>
+        @for (choice of item()!.order; track choice) {
+          <label class="answer" [class.selected]="item()!.answer === choice"
+            ><input
+              type="radio"
+              [name]="q.id"
+              [value]="choice"
+              [checked]="item()!.answer === choice"
+              (change)="answer(choice)"
+            /><span>{{ q.choices[choice] }}</span></label
+          >
+        }
+      </fieldset>
+      <div class="quiz-actions">
+        <button [disabled]="attempt.current === 0" (click)="go(attempt.current - 1)">
+          Previous</button
+        ><button
+          [disabled]="attempt.current === attempt.count - 1"
+          (click)="go(attempt.current + 1)"
+        >
+          Next
+        </button>
+      </div>
+    </section>
+    <nav class="question-nav" aria-label="Quiz questions">
+      @for (entry of attempt.items; track entry.id; let i = $index) {
+        <button
+          [class.answered]="entry.answer !== null"
+          [attr.aria-current]="i === attempt.current ? 'step' : null"
+          [attr.aria-label]="
+            'Question ' + (i + 1) + (entry.answer !== null ? ', answered' : ', unanswered')
+          "
+          (click)="go(i)"
+        >
+          {{ i + 1 }}
+        </button>
+      }
+    </nav>
+    <div class="submit-row">
+      <span>{{ answered(attempt) }} of {{ attempt.count }} answered</span
+      ><button class="primary" [disabled]="answered(attempt) !== attempt.count" (click)="submit()">
+        Submit quiz
+      </button>
+    </div>
+  }
+}

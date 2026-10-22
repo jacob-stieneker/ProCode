@@ -1,0 +1,250 @@
+@if (store.warning()) {
+  <div class="notice" role="alert">
+    {{ store.warning() }}<button (click)="store.export()">Export work</button>
+  </div>
+}
+<section class="levels" aria-label="Angular difficulty">
+  @for (level of levels; track level.id) {
+    <button
+      [attr.aria-pressed]="store.state().difficulty === level.id"
+      [class.selected]="store.state().difficulty === level.id"
+      [disabled]="busy()"
+      (click)="change(level.id)"
+    >
+      {{ level.name }}
+    </button>
+  }
+</section>
+<div class="selectors">
+  <label
+    >Exercise<select
+      aria-label="Angular exercise"
+      [ngModel]="exercise().id"
+      [disabled]="busy()"
+      (ngModelChange)="change(undefined, $event)"
+    >
+      @for (e of list(); track e.id) {
+        <option [value]="e.id">{{ e.title }}</option>
+      }
+    </select></label
+  ><button (click)="store.export()"><pc-icon name="download" />Export work</button>
+</div>
+<div class="workspace">
+  <section class="panel instructions" aria-label="Angular challenge instructions">
+    <h2>{{ exercise().title }}</h2>
+    <div class="heading">
+      <span class="topic">Angular · TypeScript</span>
+      @if (completed()) {
+        <span class="complete"><pc-icon name="check" />Completed</span>
+      }
+    </div>
+    <p>{{ exercise().description }}</p>
+    <h3>Requirements</h3>
+    <ul>
+      @for (requirement of exercise().requirements; track requirement) {
+        <li>{{ requirement }}</li>
+      }
+    </ul>
+    <details>
+      <summary>Check coverage</summary>
+      <ul>
+        @for (check of exercise().scenarios; track check.name) {
+          <li>{{ check.name }}</li>
+        }
+      </ul>
+    </details>
+    <details>
+      <summary>Runtime reference</summary>
+      <p>
+        Available imports: @angular/core, @angular/common, @angular/forms,
+        @angular/core/rxjs-interop, rxjs, rxjs/operators, and @procode/practice.
+      </p>
+      <p>
+        Use inline templates and styles. Run refreshes the preview. Network access and external
+        files are disabled. TypeScript syntax and Angular template errors appear in Console; full
+        project type checking is not included.
+      </p>
+    </details>
+    <button
+      class="hint"
+      [disabled]="hints() >= exercise().hints.length"
+      (click)="hints.set(hints() + 1)"
+    >
+      <pc-icon name="bulb" />Hint {{ hints() }} / {{ exercise().hints.length }}
+    </button>
+    @for (hint of exercise().hints.slice(0, hints()); track hint) {
+      <p class="hint-text">{{ hint }}</p>
+    }
+  </section>
+  <div class="workbench">
+    <section class="panel editor-panel" aria-label="Angular code editor">
+      <div class="toolbar">
+        <strong>component.ts</strong
+        ><button
+          aria-label="Reset Angular starter code"
+          [disabled]="busy()"
+          (click)="resetConfirm.set(true)"
+        >
+          <pc-icon name="reset" />
+        </button>
+      </div>
+      @if (resetConfirm()) {
+        <div class="reset-confirm" role="group" aria-label="Reset Angular confirmation">
+          <span>Replace this draft with starter code?</span
+          ><button (click)="resetConfirm.set(false)">Keep my code</button
+          ><button (click)="reset()">Reset code</button>
+        </div>
+      }
+      <div class="editor angular-editor">
+        <pc-editor
+          [code]="code()"
+          [contextKey]="key()"
+          language="typescript"
+          [dark]="appearance.preferences().mode !== 'light'"
+          [disabled]="busy()"
+          (codeChange)="updateCode($event)"
+          (runCode)="execute('run')"
+        />
+      </div>
+      <div class="actions">
+        <button class="run-button" [disabled]="busy()" (click)="execute('run')">
+          <pc-icon name="play" />Run</button
+        ><button class="primary" [disabled]="busy()" (click)="execute('finish')">
+          Finish<pc-icon name="arrow" /></button
+        ><small>{{ store.warning() ? 'Session active' : 'Saved locally' }}</small>
+      </div>
+    </section>
+    <section
+      class="panel output"
+      aria-label="Angular practice output"
+      [attr.aria-busy]="busy()"
+      [attr.data-completed-attempt]="completedAttempt()"
+    >
+      <div
+        class="output-header"
+        role="tablist"
+        aria-label="Angular output"
+        (keydown)="navigate($event)"
+      >
+        <button
+          id="ng-console-tab"
+          role="tab"
+          aria-controls="ng-console-panel"
+          [attr.aria-selected]="output() === 'console'"
+          [tabIndex]="output() === 'console' ? 0 : -1"
+          (click)="output.set('console')"
+        >
+          <pc-icon name="terminal" />Console
+        </button>
+        <button
+          id="ng-preview-tab"
+          role="tab"
+          aria-controls="ng-preview-panel"
+          [attr.aria-selected]="output() === 'preview'"
+          [tabIndex]="output() === 'preview' ? 0 : -1"
+          (click)="output.set('preview')"
+        >
+          <pc-icon name="monitor" />Preview
+        </button>
+        <button
+          id="ng-tests-tab"
+          role="tab"
+          aria-controls="ng-tests-panel"
+          [attr.aria-selected]="output() === 'tests'"
+          [tabIndex]="output() === 'tests' ? 0 : -1"
+          (click)="output.set('tests')"
+        >
+          <pc-icon name="check" />Test results
+          @if (results().length) {
+            <span>{{ passes() }}/{{ results().length }}</span>
+          }
+        </button>
+      </div>
+      <div
+        id="ng-console-panel"
+        role="tabpanel"
+        aria-labelledby="ng-console-tab"
+        [hidden]="output() !== 'console'"
+        class="angular-console"
+      >
+        @for (error of errors(); track error) {
+          <pre class="console-error" tabindex="0">{{ error }}</pre>
+        }
+        @for (log of logs(); track $index) {
+          <pre tabindex="0">{{ log }}</pre>
+        }
+        @if (!errors().length && !logs().length) {
+          <p>{{ mode() ? 'No console output.' : 'Run to compile and test.' }}</p>
+        }
+      </div>
+      <div
+        id="ng-preview-panel"
+        role="tabpanel"
+        aria-labelledby="ng-preview-tab"
+        [hidden]="output() !== 'preview'"
+      >
+        @if (!previewReady()) {
+          <p class="empty">Run to preview the component.</p>
+        }
+        @if (previewStale()) {
+          <p class="preview-note">Code changed. Run to refresh.</p>
+        }
+        <div #previewHost class="angular-preview"></div>
+      </div>
+      <div
+        id="ng-tests-panel"
+        role="tabpanel"
+        aria-labelledby="ng-tests-tab"
+        [hidden]="output() !== 'tests'"
+      >
+        @if (results().length) {
+          <div class="result-summary" [class.success]="allPassed()">
+            <strong>{{
+              allPassed()
+                ? mode() === 'finish'
+                  ? 'Challenge complete.'
+                  : 'Run checks passed.'
+                : 'Some checks failed.'
+            }}</strong>
+            <p>{{ passes() }} of {{ results().length }} checks passed</p>
+          </div>
+          @for (result of results(); track result.name) {
+            <div class="check-result">
+              <div>
+                <pc-icon [name]="result.pass ? 'check' : 'close'" /><strong>{{
+                  result.name
+                }}</strong
+                ><span>{{ result.pass ? 'Passed' : 'Failed' }}</span>
+              </div>
+              @if (!result.pass) {
+                <pre tabindex="0">{{ result.actual }}</pre>
+                <p>{{ result.hint }}</p>
+              }
+            </div>
+          }
+          @if (allPassed() && mode() === 'finish') {
+            <div class="explanation">
+              <h3>Explanation</h3>
+              <p>{{ exercise().explanation }}</p>
+            </div>
+          }
+        } @else {
+          <p class="empty">
+            {{
+              errors().length
+                ? 'Compilation or runtime failed. See Console.'
+                : 'Run checks three scenarios. Finish checks all scenarios.'
+            }}
+          </p>
+        }
+      </div>
+    </section>
+    <span class="sr-only" aria-live="polite">
+      @if (errors().length) {
+        Angular execution reported an error.
+      } @else if (results().length) {
+        {{ passes() }} of {{ results().length }} checks passed
+      }
+    </span>
+  </div>
+</div>

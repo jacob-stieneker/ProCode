@@ -1,0 +1,122 @@
+[
+  {
+    "source": "Cursor 3.14.27",
+    "file": "themes/cursor-dark-color-theme.json",
+    "sha256": "117a4d53e7869b7a780468ff54db2b4ba769c4a34303377ac31f8b99d8f84727"
+  },
+  {
+    "source": "Cursor 3.14.27",
+    "file": "themes/cursor-light-color-theme.json",
+    "sha256": "00c81e6926f6651e36a5cc877a6481d43c972b643bdc1d08fdc05e6b23badd9b"
+  },
+  {
+    "source": "Cursor 3.14.27",
+    "file": "package.json",
+    "sha256": "ece6b35f733cf319bcefc10f9e68bf049db0e34c9d234ad0d75dec18431a3907"
+  },
+  {
+    "source": "VS Code 1.140.0",
+    "file": "themes/dark_vs.json",
+    "sha256": "9f42c49006a9498b72145484ce6486107dda0eae00a06adde159e5fe62e55614"
+  },
+  {
+    "source": "VS Code 1.140.0",
+    "file": "themes/light_vs.json",
+    "sha256": "9e103f75371c4882c4c0d5bde441d1b4c7e4fb928f718ee9153bd9a3cb1cbba7"
+  },
+  {
+    "source": "VS Code 1.140.0",
+    "file": "themes/dark_plus.json",
+    "sha256": "88f5b662378cbe39473a4a8d916a1b4ec580f85858876eaec440288aee2852df"
+  },
+  {
+    "source": "VS Code 1.140.0",
+    "file": "themes/light_plus.json",
+    "sha256": "bf64f3ec2a80788fad115086bd10fd4136dd1d760ec478f4107756f098d101ea"
+  },
+  {
+    "source": "ChatGPT/Codex 26.930.51102",
+    "file": "app-shared-6fb15e58cd7f.css",
+    "sha256": "4ea4b25e3f4f3225a3bf212fa767afe7655b16bbd5919ebf4fb12c656f974720"
+  },
+  {
+    "source": "ChatGPT/Codex 26.930.51102",
+    "file": "chatgpt-code-block-highlighting-750e7f361725.js",
+    "sha256": "a65fa0336c91a3d273eaf933c9a7006f42e64c5f17a3fcb1ae2de9565b831328"
+  },
+  {
+    "source": "GitHub theme cd78e5e4e7bcf132a6f428ae0f32264bb1b729cf",
+    "file": "github-theme.js",
+    "sha256": "a1fa66e9bb4b8fcf5ca8d627e5462d91b7a0187ee0ce99243d358824dc7c7256"
+  },
+  {
+    "source": "GitHub theme cd78e5e4e7bcf132a6f428ae0f32264bb1b729cf",
+    "file": "github-colors.js",
+    "sha256": "d45100e84ee24fe488c56714f2ee59274f5332e73459d1b55bd0dc9c477ecfd9"
+  },
+  {
+    "source": "GitHub theme cd78e5e4e7bcf132a6f428ae0f32264bb1b729cf",
+    "file": "github-dark.json",
+    "sha256": "600b7ae47cfbbb71887ce27dc25c55f63b48472831461f958a96c3142856e7eb"
+  },
+  {
+    "source": "GitHub theme cd78e5e4e7bcf132a6f428ae0f32264bb1b729cf",
+    "file": "github-light.json",
+    "sha256": "5a77cc1f4a04f73355cbac8724c9a89cad1f7587ad6ce9a874fc7d9e3c43e430"
+  },
+  {
+    "source": "Claude desktop 2.26454.0",
+    "file": "ion-dist/assets/v1/c6a992d55-Xh6d0aMt.css",
+    "sha256": "bc1c2e999b1963fef8b5fe25333fd9e27816d58dbe10519beb89fe62e69e1877"
+  },
+  {
+    "source": "Claude desktop 2.26454.0",
+    "file": "ion-dist/assets/v1/c5d464fa3-BZJ3nS_s.js",
+    "sha256": "d873dd38e3d6c8a5bdfed68edc2247492877da2597e5a10185ceb75df852a574"
+  },
+  {
+    "source": "Claude desktop 2.26454.0",
+    "file": "ion-dist/assets/v1/shared-18-BeRk8Ekg.js",
+    "sha256": "af32dc1e38a6ae48179492b098d080f40020626ba8e0127f7f93275cd845f39d"
+  },
+  {
+    "source": "Claude desktop 2.26454.0",
+    "file": "ion-dist/assets/v1/shared-9-IxQxk6sR.js",
+    "sha256": "c219f7573bdb8e455ba93b4ea0e21da4f4b047305a4694b5d94c6bd26909145e"
+  },
+  {
+    "source": "PyCharm 2026.2.3 (262.10968.92), bundled Islands Light / Islands Dark",
+    "archive": "Contents/lib/intellij.platform.ide.impl.jar",
+    "file": "DefaultColorSchemesManager.xml",
+    "sha256": "e8eef86e79a25de2ab827c6535280019c1428afe7ff4688af94a7a50e3c9ea08"
+  },
+  {
+    "source": "PyCharm 2026.2.3 (262.10968.92), bundled Islands Light / Islands Dark",
+    "archive": "Contents/lib/intellij.platform.ide.impl.jar",
+    "file": "themes/islands/IslandSchemeDark.xml",
+    "sha256": "76393eb60297796878abd8a898e78406d24fc350fe4f4c2f3e178bd427991b25"
+  },
+  {
+    "source": "PyCharm 2026.2.3 (262.10968.92), bundled Islands Light / Islands Dark",
+    "archive": "Contents/lib/intellij.platform.ide.impl.jar",
+    "file": "themes/expUI/expUI_lightScheme.xml",
+    "sha256": "4a8d24f993e3001204979eaf714c97ad74d53074932249290890ef53d354adaa"
+  },
+  {
+    "source": "PyCharm 2026.2.3 (262.10968.92), bundled Islands Light / Islands Dark",
+    "archive": "Contents/lib/intellij.platform.ide.impl.jar",
+    "file": "themes/islands/ManyIslandsLight.theme.json",
+    "sha256": "d5cd6c87a981a8ca597894dabe796df54f755c655a8c1fc3f44b0e7fb7351a0f"
+  },
+  {
+    "source": "PyCharm 2026.2.3 (262.10968.92), bundled Islands Light / Islands Dark",
+    "archive": "Contents/lib/intellij.platform.ide.impl.jar",
+    "file": "themes/islands/ManyIslandsDark.theme.json",
+    "sha256": "0d562967164bd79498abad46b7c821d56ebc8bba262e824522bb4130d8c70321"
+  },
+  {
+    "source": "PyCharm 2026.2.3 (262.10968.92), bundled Islands Light / Islands Dark",
+    "file": "Contents/Resources/product-info.json",
+    "sha256": "371a33492911a09c31d8838624bf50aa08cbabb2f9690c5b7d3619b5782beaf2"
+  }
+]
